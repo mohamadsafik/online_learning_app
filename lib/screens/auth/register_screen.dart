@@ -25,7 +25,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           RegisterUserEvent(
             name: widget.nameC.text,
             email: widget.regisEmailC.text,
-            role: widget.roleValue,
+            role: "Mahasiswa",
             password: widget.regisPasswordC.text,
           ),
         );
