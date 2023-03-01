@@ -32,3 +32,29 @@ class LoginSuccess extends LoginState {
   @override
   List<Object> get props => [];
 }
+
+class CheckLoginInitial extends LoginState {
+  @override
+  List<Object> get props => [];
+}
+
+class CheckLoginLoading extends LoginState {
+  @override
+  List<Object> get props => [];
+}
+
+class CheckLoginError extends LoginState {
+  final String? message;
+  const CheckLoginError({this.message});
+
+  @override
+  List<Object> get props => [];
+}
+
+class CheckLoginSuccess extends LoginState {
+  final String? message;
+  const CheckLoginSuccess({this.message});
+
+  @override
+  List<Object> get props => [];
+}
