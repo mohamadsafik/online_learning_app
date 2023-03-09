@@ -27,7 +27,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                   return "Email is required";
                 } else if (!val.toString().contains('@gmail')) {
                   return 'Enter valid Email';
-                } else {}
+                }
                 return null;
               },
               autocorrect: false,
@@ -70,7 +70,10 @@ class ForgotPasswordScreen extends StatelessWidget {
               borderRadius: 20,
               width: double.infinity,
               style: whiteTextStyle.copyWith(
-                  fontSize: 14, color: kWhiteColor, fontWeight: semibold),
+                fontSize: 14,
+                color: kWhiteColor,
+                fontWeight: semibold,
+              ),
             )
           ],
         ),

@@ -18,19 +18,23 @@ class LoginLoading extends LoginState {
 }
 
 class LoginError extends LoginState {
-  final String? message;
-  const LoginError({this.message});
+  final String message;
+  const LoginError({required this.message});
 
   @override
   List<Object> get props => [];
 }
 
 class LoginSuccess extends LoginState {
+  final UserModel user;
   final String? message;
-  const LoginSuccess({this.message});
+  const LoginSuccess({
+    required this.user,
+    this.message,
+  });
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [message.toString()];
 }
 
 class CheckLoginInitial extends LoginState {
@@ -54,6 +58,36 @@ class CheckLoginError extends LoginState {
 class CheckLoginSuccess extends LoginState {
   final String? message;
   const CheckLoginSuccess({this.message});
+
+  @override
+  List<Object> get props => [];
+}
+
+class CheckRoleInitial extends LoginState {
+  @override
+  List<Object> get props => [];
+}
+
+class CheckRoleLoading extends LoginState {
+  @override
+  List<Object> get props => [];
+}
+
+class CheckRoleError extends LoginState {
+  final String? message;
+  const CheckRoleError({this.message});
+
+  @override
+  List<Object> get props => [];
+}
+
+class CheckRoleSuccess extends LoginState {
+  final String? message;
+  final dynamic data;
+  const CheckRoleSuccess({
+    this.message,
+    required this.data,
+  });
 
   @override
   List<Object> get props => [];

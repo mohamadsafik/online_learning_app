@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:online_learning_app/export.dart';
-import 'package:online_learning_app/theme.dart';
 
 class CustomSplashScreen extends StatelessWidget {
   final String logo;

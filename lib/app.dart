@@ -8,7 +8,16 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => TestBlocBloc(),
+          create: (context) => RegisterBloc(),
+        ),
+        BlocProvider(
+          create: (context) => LoginBloc(),
+        ),
+        BlocProvider(
+          create: (context) => LogoutBloc(),
+        ),
+        BlocProvider(
+          create: (context) => PageCubit(),
         ),
       ],
       child: const App(),
@@ -22,14 +31,22 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const LoginScreen(),
-      // initialRoute: '/',
-      // routes: {
-      // '/home': (context) => const HomeScreen(),
-      // '/login': (context) => const LoginScreen(),
-      // },
       theme: ThemeData(),
       debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const SplashScreen(),
+        '/auth': (context) => AuthScreen(),
+        //User Route
+        '/main': (context) => const MainScreen(),
+        '/settings': (context) => SettingsScreen(),
+        '/profile': (context) => const ProfileScreen(),
+        //Author Route
+        '/author-main': (context) => const AuthorHomeScreen(),
+        //Admin Route
+        '/admin-main': (context) => const AdminHomeScreen(),
+        '/check-role': (context) => CheckRoleScreen(),
+      },
     );
   }
 }

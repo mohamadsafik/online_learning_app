@@ -1,121 +1,116 @@
 import 'package:online_learning_app/export.dart';
+import 'package:online_learning_app/services/user_services.dart';
 
 class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  static TextEditingController loginPasswordC = TextEditingController();
-  static TextEditingController loginEmailC = TextEditingController();
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future registerUser(
-    BuildContext context, {
+  Future<UserModel> registerUser({
     required String name,
     required String email,
     required String role,
     required String password,
+    required String createdAt,
   }) async {
     try {
-      UserCredential _userCredential =
-          await _auth.createUserWithEmailAndPassword(
+      //create account with email and password to firebase auth
+      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      if (_userCredential.user != null) {
-        await _firestore.collection('user').add({
+      //assigning to model
+      UserModel user = UserModel(
+        uid: userCredential.user!.uid,
+        email: email,
+        name: name,
+        role: role,
+      );
+
+      //create data displayName to firebaseAuth
+      auth.currentUser!.updateDisplayName(name);
+
+      //Storing data to firestore if data isn't null / Set User
+      if (userCredential.user != null) {
+        await firestore.collection("user").doc(userCredential.user!.uid).set({
           "name": name,
           "email": email,
           "role": role,
+          "createdAt": createdAt
         });
+        //Send email verification
+        await userCredential.user!.sendEmailVerification();
       }
 
-      await _userCredential.user!.sendEmailVerification();
+      //returning Data
+      return user;
     } on FirebaseAuthException catch (e) {
       throw FirebaseException(
         message: e.code.toString(),
         plugin: e.code.toString(),
       );
-      // if (e.code == 'weak-password') {
-      //   print('weak-password');
-      //   ScaffoldMessenger.of(context).showSnackBar(
-      //     SnackBar(
-      //       duration: const Duration(seconds: 3),
-      //       behavior: SnackBarBehavior.floating,
-      //       backgroundColor: kRedColor,
-      //       content: Row(
-      //         children: const [
-      //           Icon(Icons.beenhere_rounded, color: Colors.white),
-      //           SizedBox(width: 12),
-      //           Text('Your Password is too weak'),
-      //         ],
-      //       ),
-      //     ),
-      //   );
-      // } else if (e.code == 'email-already-in-use') {
-      //   print('Email already exist');
-      //   ScaffoldMessenger.of(context).showSnackBar(
-      //     SnackBar(
-      //       duration: const Duration(seconds: 3),
-      //       behavior: SnackBarBehavior.floating,
-      //       backgroundColor: kRedColor,
-      //       content: Row(
-      //         children: const [
-      //           Icon(Icons.error, color: Colors.white),
-      //           SizedBox(width: 12),
-      //           Text('Email already in use'),
-      //         ],
-      //       ),
-      //     ),
-      //   );
-      // } else if (e.code == 'wrong-password') {
-      //   print('wrong password');
-      //   ScaffoldMessenger.of(context).showSnackBar(
-      //     SnackBar(
-      //       duration: const Duration(seconds: 3),
-      //       behavior: SnackBarBehavior.floating,
-      //       backgroundColor: kRedColor,
-      //       content: Row(
-      //         children: const [
-      //           Icon(Icons.error, color: Colors.white),
-      //           SizedBox(width: 12),
-      //           Text('Wrong password'),
-      //         ],
-      //       ),
-      //     ),
-      //   );
-      // } else {
-      //   print(e.code);
-      //   ScaffoldMessenger.of(context).showSnackBar(
-      //     SnackBar(
-      //       duration: const Duration(seconds: 3),
-      //       behavior: SnackBarBehavior.floating,
-      //       backgroundColor: kRedColor,
-      //       content: Row(
-      //         children: [
-      //           const Icon(Icons.error, color: Colors.white),
-      //           const SizedBox(width: 12),
-      //           Text(e.code.toString()),
-      //         ],
-      //       ),
-      //     ),
-      //   );
-      // }
     } catch (e) {
       throw FirebaseException(plugin: e.toString(), message: e.toString());
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(
-      //     duration: const Duration(seconds: 3),
-      //     behavior: SnackBarBehavior.floating,
-      //     backgroundColor: kRedColor,
-      //     content: Row(
-      //       children: [
-      //         const Icon(Icons.error, color: Colors.white),
-      //         const SizedBox(width: 12),
-      //         Text(e.toString()),
-      //       ],
-      //     ),
-      //   ),
-      // );
-      // rethrow;
+    }
+  }
+
+  Future<UserModel> loginUser({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      UserModel user = await UserService().getUserById(
+        userCredential.user!.uid,
+      );
+      return user;
+    } on FirebaseAuthException catch (e) {
+      throw FirebaseException(
+        message: e.code.toString(),
+        plugin: e.code.toString(),
+      );
+    } catch (e) {
+      throw FirebaseException(
+        plugin: e.toString(),
+        message: e.toString(),
+      );
+    }
+  }
+
+  Future sendResetPassword({
+    required String email,
+  }) async {
+    try {
+      await auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      throw FirebaseException(
+        message: e.code.toString(),
+        plugin: e.code.toString(),
+      );
+    } catch (e) {
+      throw FirebaseException(
+        plugin: e.toString(),
+        message: e.toString(),
+      );
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      await auth.signOut();
+    } on FirebaseAuthException catch (e) {
+      throw FirebaseException(
+        message: e.code.toString(),
+        plugin: e.code.toString(),
+      );
+    } catch (e) {
+      throw FirebaseException(
+        plugin: e.toString(),
+        message: e.toString(),
+      );
     }
   }
 }

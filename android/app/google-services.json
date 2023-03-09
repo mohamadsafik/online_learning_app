@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "369879803030",
+    "project_id": "online-learning-43fcd",
+    "storage_bucket": "online-learning-43fcd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:369879803030:android:6bb5f1acc02ccbb5204eb7",
+        "android_client_info": {
+          "package_name": "com.example.online_learning_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "369879803030-gvgbg1keguu98uql9nide3cr2r3m4kam.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOCPo5kdHeq9mqSNbT4fm2Md6G-n8C5B4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "369879803030-gvgbg1keguu98uql9nide3cr2r3m4kam.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

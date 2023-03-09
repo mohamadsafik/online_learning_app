@@ -7,7 +7,7 @@ part 'logout_state.dart';
 
 class LogoutBloc extends Bloc<LogoutEvent, LogoutState> {
   LogoutBloc() : super(LogoutInitial()) {
-    on<LogoutEvent>((event, emit) async {
+    on<LogoutUserEvent>((event, emit) async {
       try {
         emit(LogoutLoading());
         await AuthService().logout();

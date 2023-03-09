@@ -26,9 +26,8 @@ class LogoutSuccess extends LogoutState {
 }
 
 class LogoutError extends LogoutState {
-  final String? message;
-
-  const LogoutError({this.message});
+  final String message;
+  const LogoutError({required this.message});
 
   @override
   List<Object> get props => [];

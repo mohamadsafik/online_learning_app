@@ -1,8 +1,13 @@
 import 'package:online_learning_app/export.dart';
 
-class UserMainScreen extends StatelessWidget {
-  const UserMainScreen({super.key});
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
 
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     Widget buildContent(int index) {
@@ -10,24 +15,24 @@ class UserMainScreen extends StatelessWidget {
         case 0:
           return HomeScreen();
         case 1:
-          return HomeScreen();
+        // return HomeScreen();
         case 2:
-          return HomeScreen();
+        // return HomeScreen();
         case 3:
-          return const ProfileScreen();
+          return SettingsScreen();
         default:
           return HomeScreen();
       }
     }
 
     return BlocBuilder<PageCubit, int>(
-      builder: (context, currentIndex) {
+      builder: (context, state) {
         return Scaffold(
           body: SafeArea(
             bottom: false,
             child: Stack(
               children: [
-                buildContent(currentIndex),
+                buildContent(state),
                 const CustomBottomNavigation(),
               ],
             ),

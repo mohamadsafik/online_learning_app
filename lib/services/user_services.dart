@@ -2,29 +2,21 @@ import 'package:online_learning_app/export.dart';
 
 class UserService {
   FirebaseAuth auth = FirebaseAuth.instance;
-  Stream<List<User>> get user {
-    return user.map(
-      (event) => event.toList(),
-    );
-  }
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final CollectionReference _userCollection =
+      FirebaseFirestore.instance.collection("user");
 
-  getAllData() {
-    dynamic data = FirebaseFirestore.instance
-        .collection('cows')
-        .where('uid', isEqualTo: auth.currentUser?.uid)
-        .get();
-    return data;
-  }
-
-  streamAllUser() {
-    FirebaseFirestore.instance.collection('users').snapshots();
-  }
-
-  streamUserLogin() {
-    String uid = FirebaseAuth.instance.currentUser!.uid;
-    FirebaseFirestore.instance
-        .collection('users')
-        .where('uid', isEqualTo: uid)
-        .snapshots();
+  Future<UserModel> getUserById(String uid) async {
+    try {
+      DocumentSnapshot snapshot = await _userCollection.doc(uid).get();
+      return UserModel(
+        uid: uid,
+        email: snapshot['email'],
+        name: snapshot['name'],
+        role: snapshot['role'],
+      );
+    } catch (e) {
+      rethrow;
+    }
   }
 }

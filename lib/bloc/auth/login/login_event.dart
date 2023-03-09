@@ -16,3 +16,29 @@ class LoginUserEvent extends LoginEvent {
     required this.password,
   });
 }
+
+class CheckLoginUserEvent extends LoginEvent {
+  late final Navigator adminRoute;
+  late final Navigator studentRoute;
+  late final Navigator lecturerRoute;
+  late final BuildContext context;
+
+  CheckLoginUserEvent({
+    required this.adminRoute,
+    required this.studentRoute,
+    required this.lecturerRoute,
+  });
+}
+
+class CheckRoleUserEvent extends LoginEvent {
+  late final Navigator adminRoute;
+  late final Navigator studentRoute;
+  late final Navigator lecturerRoute;
+  late final BuildContext context;
+
+  CheckRoleUserEvent({
+    required this.adminRoute,
+    required this.studentRoute,
+    required this.lecturerRoute,
+  });
+}

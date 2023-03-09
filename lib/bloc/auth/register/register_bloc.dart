@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:online_learning_app/services/auth_services.dart';
 
+import '../../../models/user_model.dart';
+
 part 'register_event.dart';
 part 'register_state.dart';
 
@@ -10,14 +12,14 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<RegisterUserEvent>((event, emit) async {
       try {
         emit(RegisterLoading());
-        await AuthService().registerUser(
+        UserModel user = await AuthService().registerUser(
           name: event.name,
           email: event.email,
           role: event.role,
           password: event.password,
           createdAt: event.createdAt,
         );
-        emit(const RegisterSuccess());
+        emit(RegisterSuccess(user: user));
       } catch (e) {
         emit(const RegisterError());
       }

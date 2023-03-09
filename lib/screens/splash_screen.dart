@@ -1,7 +1,3 @@
-import 'dart:async';
-
-import 'package:online_learning_app/theme.dart';
-import 'package:online_learning_app/widgets/custom_splash_widget.dart';
 import 'package:online_learning_app/export.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -19,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
         seconds: 5,
       ),
       () {
-        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, '/auth', (route) => false);
       },
     );
     super.initState();
