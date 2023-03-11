@@ -93,7 +93,7 @@ class SettingsScreen extends StatelessWidget {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    FirebaseAuth.instance.signOut();
+                                    AuthService().logout();
                                     Navigator.pushNamed(context, '/auth');
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
