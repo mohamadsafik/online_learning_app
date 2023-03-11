@@ -149,31 +149,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.deepPurple.shade200,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.error_outline,
-                      color: Colors.white,
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      'Please make sure your email is active',
-                      style: whiteTextStyle.copyWith(
-                        fontSize: 12,
-                        fontWeight: regular,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
               const SizedBox(height: 16),
               TextFormField(
                 textInputAction: TextInputAction.next,
