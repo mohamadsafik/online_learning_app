@@ -210,11 +210,55 @@ class _LoginScreenState extends State<LoginScreen> {
                       Navigator.pushNamedAndRemoveUntil(
                           context, '/main', (route) => false);
                     }
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        duration: const Duration(seconds: 3),
+                        behavior: SnackBarBehavior.floating,
+                        elevation: 0,
+                        backgroundColor: kGreenColor,
+                        content: Row(
+                          children: [
+                            const Icon(
+                              Icons.beenhere_rounded,
+                              color: Colors.white,
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              'Login Success',
+                              style: whiteTextStyle.copyWith(
+                                fontSize: 14,
+                                fontWeight: bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
                   } else if (state is LoginError) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
+                        behavior: SnackBarBehavior.floating,
                         backgroundColor: kRedColor,
                         content: Text(state.message),
+                      ),
+                    );
+                  } else {
+                    //show snackbar loading
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: kLoadingColor,
+                        content: Row(
+                          children: const [
+                            Text('Loading'),
+                            SizedBox(width: 12),
+                            SizedBox(
+                              height: 10,
+                              width: 10,
+                              child: CircularProgressIndicator(strokeWidth: 1),
+                            )
+                          ],
+                        ),
                       ),
                     );
                   }
@@ -231,25 +275,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       if (widget._formKey.currentState!.validate()) {
                         // If the form is valid, display a snackbar. In the real world,
-                        //show snackbar loading
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            behavior: SnackBarBehavior.floating,
-                            backgroundColor: kLoadingColor,
-                            content: Row(
-                              children: const [
-                                Text('Loading'),
-                                SizedBox(width: 12),
-                                SizedBox(
-                                  height: 10,
-                                  width: 10,
-                                  child:
-                                      CircularProgressIndicator(strokeWidth: 1),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
                         //Store the data
                         context.read<LoginBloc>().add(
                               LoginUserEvent(
