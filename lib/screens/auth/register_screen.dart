@@ -3,16 +3,9 @@ import 'package:online_learning_app/export.dart';
 class RegisterScreen extends StatefulWidget {
   RegisterScreen({super.key});
   bool _obscureText = true;
-  String roleValue = '';
   TextEditingController nameC = TextEditingController();
-  TextEditingController roleC = TextEditingController();
   TextEditingController regisPasswordC = TextEditingController();
   TextEditingController regisEmailC = TextEditingController();
-  final List<String> role = [
-    'Mahasiswa',
-    'Dosen',
-  ];
-  String? selectedRole;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -20,8 +13,6 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  void _addData() {}
-
   void _showPassword() {
     setState(() {
       widget._obscureText = !widget._obscureText;
