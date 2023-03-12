@@ -1,7 +1,8 @@
 import 'package:online_learning_app/export.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  final Map<String, String> arguments;
+  const MainScreen({super.key, required this.arguments});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -13,15 +14,15 @@ class _MainScreenState extends State<MainScreen> {
     Widget buildContent(int index) {
       switch (index) {
         case 0:
-          return HomeScreen();
+          return HomeScreen(arguments: widget.arguments);
         case 1:
         // return HomeScreen();
         case 2:
         // return HomeScreen();
         case 3:
-          return SettingsScreen();
+          return SettingsScreen(arguments: widget.arguments);
         default:
-          return HomeScreen();
+          return HomeScreen(arguments: widget.arguments);
       }
     }
 

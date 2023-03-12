@@ -1,7 +1,7 @@
 import 'package:online_learning_app/export.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  HomeScreen({super.key, required Map<String, String> arguments});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -19,12 +19,20 @@ class _HomeScreenState extends State<HomeScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                BlocBuilder<LoginBloc, LoginState>(
+                BlocBuilder<CheckLoginBloc, CheckLoginState>(
                   builder: (context, state) {
-                    if (state is LoginSuccess) {
+                    if (state is CheckLoginSuccess) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Text(
+                            'Halo,',
+                            style: greyTextStyle.copyWith(
+                              fontSize: 16,
+                              fontWeight: regular,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
                           Text(
                             state.user.name,
                             style: blackTextStyle.copyWith(
@@ -32,18 +40,37 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontWeight: bold,
                             ),
                           ),
-                          const SizedBox(height: 6),
-                          Text(
-                            state.user.email,
-                            style: greyTextStyle.copyWith(
-                              fontSize: 14,
-                              fontWeight: regular,
-                            ),
-                          ),
                         ],
                       );
                     } else {
-                      return const Text('error');
+                      return BlocBuilder<LoginBloc, LoginState>(
+                        builder: (context, state) {
+                          if (state is LoginSuccess) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  state.user.name,
+                                  style: blackTextStyle.copyWith(
+                                    fontSize: 20,
+                                    fontWeight: bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 6),
+                                Text(
+                                  state.user.email,
+                                  style: greyTextStyle.copyWith(
+                                    fontSize: 14,
+                                    fontWeight: regular,
+                                  ),
+                                ),
+                              ],
+                            );
+                          } else {
+                            return const Text('error');
+                          }
+                        },
+                      );
                     }
                   },
                 ),

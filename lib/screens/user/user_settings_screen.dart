@@ -1,7 +1,9 @@
 import 'package:online_learning_app/export.dart';
 
 class SettingsScreen extends StatelessWidget {
-  SettingsScreen({super.key});
+  final Map<String, String> arguments;
+
+  SettingsScreen({super.key, required this.arguments});
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +22,9 @@ class SettingsScreen extends StatelessWidget {
                       child: CircleAvatar(),
                     ),
                     const SizedBox(height: 16),
-                    BlocBuilder<LoginBloc, LoginState>(
+                    BlocBuilder<CheckLoginBloc, CheckLoginState>(
                       builder: (context, state) {
-                        if (state is LoginSuccess) {
+                        if (state is CheckLoginSuccess) {
                           return Text(
                             state.user.name,
                             style: blackTextStyle.copyWith(
@@ -31,16 +33,30 @@ class SettingsScreen extends StatelessWidget {
                             ),
                           );
                         } else {
-                          return Column(
-                            children: [
-                              Text(
-                                'User not logged in',
-                                style: redTextStyle.copyWith(
-                                  fontSize: 14,
-                                  fontWeight: regular,
-                                ),
-                              ),
-                            ],
+                          return BlocBuilder<LoginBloc, LoginState>(
+                            builder: (context, state) {
+                              if (state is LoginSuccess) {
+                                return Text(
+                                  state.user.name,
+                                  style: blackTextStyle.copyWith(
+                                    fontSize: 20,
+                                    fontWeight: bold,
+                                  ),
+                                );
+                              } else {
+                                return Column(
+                                  children: [
+                                    Text(
+                                      'User not logged in',
+                                      style: redTextStyle.copyWith(
+                                        fontSize: 14,
+                                        fontWeight: regular,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }
+                            },
                           );
                         }
                       },
