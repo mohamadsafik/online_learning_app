@@ -270,7 +270,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 email: widget.regisEmailC.text,
                                 role: "mahasiswa",
                                 password: widget.regisPasswordC.text,
-                                createdAt: DateTime.now().toIso8601String(),
                               ),
                             );
                       }
