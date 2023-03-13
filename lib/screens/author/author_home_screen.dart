@@ -1,7 +1,8 @@
 import '../../export.dart';
 
 class AuthorHomeScreen extends StatelessWidget {
-  const AuthorHomeScreen({super.key});
+  final Map<String, String> arguments;
+  const AuthorHomeScreen({super.key, required this.arguments});
 
   @override
   Widget build(BuildContext context) {
