@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:online_learning_app/screens/user/user_explore_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../export.dart';
@@ -15,7 +16,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   List<Widget> _buildScreens() {
     return [
       HomeScreen(arguments: widget.arguments),
-      HomeScreen(arguments: widget.arguments),
+      ExploreScreen(arguments: widget.arguments),
       SettingsScreen(arguments: widget.arguments)
     ];
   }
@@ -29,8 +30,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.settings),
-        title: ("Settings"),
+        icon: const Icon(CupertinoIcons.compass),
+        title: ("Explore"),
         activeColorPrimary: CupertinoColors.activeBlue,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
@@ -79,7 +80,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         duration: Duration(milliseconds: 200),
       ),
       navBarStyle:
-          NavBarStyle.style6, // Choose the nav bar style with this property.
+          NavBarStyle.style9, // Choose the nav bar style with this property.
     );
   }
 }

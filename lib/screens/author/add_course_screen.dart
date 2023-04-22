@@ -2,6 +2,19 @@ import 'package:online_learning_app/export.dart';
 
 class AddCourseScreen extends StatefulWidget {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController titleC = TextEditingController();
+  final TextEditingController descriptionC = TextEditingController();
+  final List<String> category = [
+    'Web Development',
+    'Mobile Development',
+    'IOT Development',
+    'Desktop Development',
+    'Artificial Intelligent',
+    'UI/UX Design',
+    'Lainnya...',
+  ];
+  String? selectedCategory;
+  String categoryValue = '';
 
   AddCourseScreen({super.key});
 
@@ -10,6 +23,14 @@ class AddCourseScreen extends StatefulWidget {
 }
 
 class _AddCourseScreenState extends State<AddCourseScreen> {
+  File? imageSelected;
+  // Future getImageFromGallery() async {
+  //   final ImagePicker _picker = ImagePicker();
+  //   final XFile? imagePicked =
+  //       await _picker.pickImage(source: ImageSource.gallery);
+  //   imageSelected = File(imagePicked!.path);
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,11 +49,12 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextFormField(
+                    controller: widget.titleC,
                     textInputAction: TextInputAction.next,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (val) {
                       if (val == null || val.isEmpty) {
-                        return "Nama Lengkap is required";
+                        return "Title is required";
                       }
                       return null;
                     },
@@ -50,7 +72,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                           color: kPrimaryColor,
                         ),
                       ),
-                      hintText: 'Nama Lengkap',
+                      hintText: 'Judul Kursus',
                       hintStyle: greyTextStyle.copyWith(
                         fontWeight: regular,
                         fontSize: 14,
@@ -70,15 +92,99 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
+                  Center(
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton2(
+                        isExpanded: true,
+                        hint: Row(
+                          children: [
+                            const Icon(
+                              Icons.account_circle_outlined,
+                              size: 20,
+                              color: kGreyColor,
+                            ),
+                            const SizedBox(
+                              width: 14,
+                            ),
+                            Expanded(
+                              child: Text(
+                                'Kategori',
+                                style: greyTextStyle.copyWith(
+                                  fontSize: 14,
+                                  color: kGreyColor,
+                                  fontWeight: regular,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                        items: widget.category
+                            .map(
+                              (item) => DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(
+                                  item,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: regular,
+                                    color: kBlackColor,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            )
+                            .toList(),
+                        value: widget.selectedCategory,
+                        onChanged: (value) {
+                          setState(() {
+                            widget.selectedCategory = value as String;
+                            widget.categoryValue = value;
+                          });
+                        },
+                        //
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        iconSize: 24,
+                        iconEnabledColor: kPrimaryColor,
+                        iconDisabledColor: kGreyColor,
+                        buttonHeight: 60,
+                        buttonWidth: double.infinity,
+                        buttonPadding:
+                            const EdgeInsets.only(left: 14, right: 14),
+                        buttonDecoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: kGreyColor,
+                          ),
+                          color: Colors.transparent,
+                        ),
+                        buttonElevation: 0,
+                        itemHeight: 50,
+                        itemPadding: const EdgeInsets.only(left: 14, right: 14),
+                        dropdownMaxHeight: 200,
+                        dropdownWidth: 290,
+                        dropdownPadding: null,
+                        dropdownDecoration: BoxDecoration(
+                          border: Border.all(color: kGreyColor),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        dropdownElevation: 0,
+                        scrollbarRadius: const Radius.circular(40),
+                        scrollbarThickness: 6,
+                        scrollbarAlwaysShow: true,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
                   TextFormField(
+                    controller: widget.descriptionC,
+                    maxLines: 3,
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.emailAddress,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (val) {
                       if (val == null || val.isEmpty) {
-                        return "Email is required";
-                      } else if (!val.toString().contains('@')) {
-                        return 'Enter valid Email';
+                        return "Deskripsi is required";
                       }
                       return null;
                     },
@@ -94,7 +200,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                           color: kPrimaryColor,
                         ),
                       ),
-                      hintText: 'Email',
+                      hintText: 'Deskripsi',
                       hintStyle: greyTextStyle.copyWith(
                         fontWeight: regular,
                         fontSize: 14,
@@ -107,69 +213,45 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                         ),
                       ),
                       prefixIcon: const Icon(
-                        Icons.mail_outline,
+                        Icons.description,
                         size: 20,
                         color: kGreyColor,
                       ),
                     ),
                   ),
                   const SizedBox(height: 16),
-                  TextFormField(
-                    textInputAction: TextInputAction.next,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (val) {
-                      if (val == null || val.isEmpty) {
-                        return "Password is required";
-                      } else if (val.length <= 6) {
-                        return "Please enter a password at least 6 characters!";
-                      }
-                      return null;
-                    },
-                    // controller: widget.regisPasswordC,
-                    // obscureText: widget._obscureText,
-                    autocorrect: false,
-                    style: blackTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: regular,
-                    ),
-                    cursorColor: kBlackColor,
-                    decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
+                  Container(
+                    height: 100,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide: const BorderSide(
-                          color: kPrimaryColor,
-                        ),
-                      ),
-                      hintText: 'Password',
-                      hintStyle: greyTextStyle.copyWith(
-                        fontWeight: regular,
-                        fontSize: 14,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: const BorderSide(
-                          width: 0.5,
+                        border: Border.all(
                           color: kGreyColor,
-                        ),
+                        )),
+                    child: IconButton(
+                      tooltip: 'Esese',
+                      color: kGreyColor,
+                      onPressed: () {},
+                      icon: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Add thumbnail',
+                            style: greyTextStyle.copyWith(
+                              fontSize: 12,
+                              fontWeight: regular,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          const Icon(Icons.camera_alt_outlined),
+                        ],
                       ),
-                      prefixIcon: const Icon(
-                        Icons.key,
-                        size: 20,
-                        color: kGreyColor,
-                      ),
-                      // suffixIcon: IconButton(
-                      //   // onPressed: _showPassword,
-                      //   // icon: widget._obscureText == true
-                      //   //     ? const Icon(Icons.visibility_off, size: 20)
-                      //   //     : const Icon(Icons.visibility, size: 20),
-                      //   color: kPrimaryColor,
-                      // ),
                     ),
                   ),
                   const SizedBox(height: 50),
-                  BlocConsumer<RegisterBloc, RegisterState>(
+                  BlocConsumer<AddCourseBloc, AddCourseState>(
                     listener: (context, state) {
-                      if (state is RegisterSuccess) {
+                      if (state is AddCourseSuccess) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             duration: const Duration(seconds: 5),
@@ -181,7 +263,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                                     color: Colors.white),
                                 const SizedBox(width: 12),
                                 Text(
-                                  'Register succesful!',
+                                  'Add Course succesful!',
                                   style: whiteTextStyle.copyWith(
                                     fontSize: 14,
                                     fontWeight: bold,
@@ -191,7 +273,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                             ),
                           ),
                         );
-                      } else if (state is RegisterError) {
+                      } else if (state is AddCourseError) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             duration: const Duration(seconds: 3),
@@ -203,7 +285,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                                 const Icon(Icons.beenhere_rounded,
                                     color: Colors.white),
                                 const SizedBox(width: 12),
-                                Text(state.message!),
+                                Text(state.message),
                               ],
                             ),
                           ),
@@ -230,24 +312,24 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                                       height: 10,
                                       width: 10,
                                       child: CircularProgressIndicator(
-                                          strokeWidth: 1),
+                                        strokeWidth: 1,
+                                      ),
                                     )
                                   ],
                                 ),
                               ),
                             );
                             //Store the data
-                            // context.read<RegisterBloc>().add(
-                            //       RegisterUserEvent(
-                            //         name: widget.nameC.text,
-                            //         email: widget.regisEmailC.text,
-                            //         role: "author",
-                            //         password: widget.regisPasswordC.text,
-                            //       ),
-                            //     );
+                            context.read<AddCourseBloc>().add(
+                                  AddNewCourseEvent(
+                                    title: widget.titleC.text,
+                                    category: widget.categoryValue,
+                                    description: widget.descriptionC.text,
+                                  ),
+                                );
                           }
                         },
-                        title: 'Register Now',
+                        title: 'Add Course Now',
                         style: whiteTextStyle.copyWith(
                           fontSize: 14,
                           fontWeight: semibold,

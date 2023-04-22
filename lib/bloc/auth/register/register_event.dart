@@ -12,12 +12,11 @@ class RegisterUserEvent extends RegisterEvent {
   final String email;
   final String role;
   final String password;
-  final String createdAt;
+
   const RegisterUserEvent({
     required this.name,
     required this.email,
     required this.role,
     required this.password,
-    required this.createdAt,
   });
 }

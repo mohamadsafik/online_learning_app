@@ -271,7 +271,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontWeight: semibold,
                     ),
                     height: 55,
-                    backgroundColor: kPrimaryColor,
+                    backgroundColor:
+                        (state is LoginLoading) ? kGreyColor : kPrimaryColor,
                     onPressed: () {
                       if (widget._formKey.currentState!.validate()) {
                         // If the form is valid, display a snackbar. In the real world,

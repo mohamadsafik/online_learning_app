@@ -16,9 +16,9 @@ class _MainScreenState extends State<MainScreen> {
         case 0:
           return HomeScreen(arguments: widget.arguments);
         case 1:
-        // return HomeScreen();
+          return HomeScreen(arguments: widget.arguments);
         case 2:
-        // return HomeScreen();
+          return HomeScreen(arguments: widget.arguments);
         case 3:
           return SettingsScreen(arguments: widget.arguments);
         default:

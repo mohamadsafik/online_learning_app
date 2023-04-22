@@ -1,4 +1,5 @@
 import 'package:online_learning_app/export.dart';
+import 'package:online_learning_app/widgets/persistent.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -44,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
               },
             );
           } else {
-            return MainScreen(
+            return BottomNavBar(
               arguments: {
                 "uid": state.user.uid,
                 "name": state.user.name,

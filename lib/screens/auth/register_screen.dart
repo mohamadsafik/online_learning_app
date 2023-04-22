@@ -264,14 +264,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         );
                         //Store the data
-                        context.read<RegisterBloc>().add(
-                              RegisterUserEvent(
-                                name: widget.nameC.text,
-                                email: widget.regisEmailC.text,
-                                role: "mahasiswa",
-                                password: widget.regisPasswordC.text,
-                              ),
-                            );
+                        (state is RegisterLoading)
+                            ? null
+                            : context.read<RegisterBloc>().add(
+                                  RegisterUserEvent(
+                                    name: widget.nameC.text,
+                                    email: widget.regisEmailC.text,
+                                    role: "mahasiswa",
+                                    password: widget.regisPasswordC.text,
+                                  ),
+                                );
                       }
                     },
                     title: 'Register Now',
@@ -280,7 +282,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       fontWeight: semibold,
                     ),
                     height: 55,
-                    backgroundColor: kPrimaryColor,
+                    backgroundColor:
+                        (state is RegisterLoading) ? kGreyColor : kPrimaryColor,
                     width: double.infinity,
                     borderRadius: 20,
                   );

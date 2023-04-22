@@ -18,8 +18,8 @@ class LogoutLoading extends LogoutState {
 }
 
 class LogoutSuccess extends LogoutState {
-  final String? message;
-  const LogoutSuccess({this.message});
+  final String message;
+  const LogoutSuccess({required this.message});
 
   @override
   List<Object> get props => [];

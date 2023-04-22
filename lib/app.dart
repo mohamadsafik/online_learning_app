@@ -1,3 +1,5 @@
+import 'package:online_learning_app/widgets/persistent.dart';
+
 import 'export.dart';
 
 class MyApp extends StatelessWidget {
@@ -15,6 +17,12 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => LogoutBloc(),
+        ),
+        BlocProvider(
+          create: (context) => CheckLoginBloc(),
+        ),
+        BlocProvider(
+          create: (context) => AddCourseBloc(),
         ),
         BlocProvider(
           create: (context) => PageCubit(),
@@ -38,14 +46,16 @@ class App extends StatelessWidget {
         '/': (context) => const SplashScreen(),
         '/auth': (context) => AuthScreen(),
         //User Route
-        '/main': (context) => const MainScreen(),
-        '/settings': (context) => SettingsScreen(),
+        '/main': (context) => const BottomNavBar(arguments: {}),
+        '/settings': (context) => SettingsScreen(arguments: {}),
         '/profile': (context) => const ProfileScreen(),
         //Author Route
-        '/author-main': (context) => const AuthorHomeScreen(),
+        '/author-main': (context) => const AuthorHomeScreen(arguments: {}),
+        '/add-course': (context) => AddCourseScreen(),
         //Admin Route
-        '/admin-main': (context) => const AdminHomeScreen(),
-        '/check-role': (context) => CheckRoleScreen(),
+        '/admin-main': (context) => const AdminHomeScreen(arguments: {}),
+        '/add-author': (context) => AddAuthorScreen(),
+        '/all-data': (context) => const AllDataScreen(),
       },
     );
   }

@@ -3,7 +3,7 @@ import 'package:online_learning_app/export.dart';
 class SettingsScreen extends StatelessWidget {
   final Map<String, String> arguments;
 
-  SettingsScreen({super.key, required this.arguments});
+  const SettingsScreen({super.key, required this.arguments});
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +12,7 @@ class SettingsScreen extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
+              const SizedBox(height: 50),
               Padding(
                 padding: const EdgeInsets.only(top: 50),
                 child: Column(

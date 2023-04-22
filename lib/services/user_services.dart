@@ -19,4 +19,17 @@ class UserService {
       rethrow;
     }
   }
+
+  Stream<QuerySnapshot<Object?>> getAllUser() {
+    try {
+      Stream<QuerySnapshot<Object?>> snapshot = _userCollection.snapshots();
+      return snapshot;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> deleteData(String uid) async {
+    await _userCollection.doc(uid).delete();
+  }
 }

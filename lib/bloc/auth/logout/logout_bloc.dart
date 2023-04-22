@@ -11,7 +11,7 @@ class LogoutBloc extends Bloc<LogoutEvent, LogoutState> {
       try {
         emit(LogoutLoading());
         await AuthService().logout();
-        emit(const LogoutSuccess());
+        emit(LogoutSuccess(message: event.message));
       } catch (e) {
         emit(LogoutError(message: e.toString()));
       }

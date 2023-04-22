@@ -1,14 +1,12 @@
-import 'dart:math';
-
 import 'package:online_learning_app/export.dart';
-import 'package:online_learning_app/models/course_model.dart';
 
 class CourseService {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   final CollectionReference _courseCollection =
       FirebaseFirestore.instance.collection("course");
-
+  // final ImagePicker _picker = ImagePicker();
+  String? imageUrl;
   String generateRandomString(int lengthOfString) {
     final random = Random();
     const allChars =
@@ -24,7 +22,17 @@ class CourseService {
     required String title,
     required String description,
     required String category,
+    String pickedImage = '',
   }) async {
+    // final storageRef = FirebaseStorage.instance
+    //     .ref()
+    //     .child('course_thumbnail/${pickedImage.name}');
+    // if (pickedImage == null) {
+    //   imageUrl = null;
+    // } else {
+    //   var storeFile = storageRef.putFile(File(pickedImage.path));
+    //   imageUrl = await (await storeFile).ref.getDownloadURL();
+    // }
     try {
       //make a random string for uid
       final String generateUid = generateRandomString(28);
@@ -47,6 +55,7 @@ class CourseService {
         "description": description,
         "category": category,
         "authorName": auth.currentUser!.displayName!,
+        "imageUrl": imageUrl,
       });
 
       //returning Data
@@ -79,7 +88,8 @@ class CourseService {
 
   Stream<QuerySnapshot<Object?>> getAllCourse() {
     try {
-      Stream<QuerySnapshot<Object?>> snapshot = _courseCollection.snapshots();
+      Stream<QuerySnapshot<Object?>> snapshot =
+          _courseCollection.where('member').snapshots();
       return snapshot;
     } catch (e) {
       rethrow;

@@ -23,6 +23,7 @@ class _AddAuthorScreenState extends State<AddAuthorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         title: const Text('Add Author'),
       ),
       body: Padding(
@@ -93,9 +94,7 @@ class _AddAuthorScreenState extends State<AddAuthorScreen> {
                     controller: widget.regisEmailC,
                     autocorrect: false,
                     style: blackTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: regular,
-                    ),
+                        fontSize: 14, fontWeight: regular),
                     cursorColor: kBlackColor,
                     decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
@@ -253,7 +252,6 @@ class _AddAuthorScreenState extends State<AddAuthorScreen> {
                                     email: widget.regisEmailC.text,
                                     role: "author",
                                     password: widget.regisPasswordC.text,
-                                    createdAt: DateTime.now().toIso8601String(),
                                   ),
                                 );
                           }

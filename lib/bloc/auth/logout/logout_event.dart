@@ -8,6 +8,8 @@ abstract class LogoutEvent extends Equatable {
 }
 
 class LogoutUserEvent extends LogoutEvent {
+  String message;
+  LogoutUserEvent(this.message);
   @override
-  List<Object> get props => [];
+  List<Object> get props => [message];
 }

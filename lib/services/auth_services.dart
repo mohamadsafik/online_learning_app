@@ -1,5 +1,4 @@
 import 'package:online_learning_app/export.dart';
-import 'package:online_learning_app/services/user_services.dart';
 
 class AuthService {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -10,7 +9,6 @@ class AuthService {
     required String email,
     required String role,
     required String password,
-    required String createdAt,
   }) async {
     try {
       //create account with email and password to firebase auth
@@ -18,7 +16,6 @@ class AuthService {
         email: email,
         password: password,
       );
-
       //assigning to model
       UserModel user = UserModel(
         uid: userCredential.user!.uid,
@@ -28,16 +25,18 @@ class AuthService {
       );
 
       //create data displayName to firebaseAuth
-      auth.currentUser!.updateDisplayName(name);
+      userCredential.user!.updateDisplayName(name);
 
       //Storing data to firestore if data isn't null / Set User
       if (userCredential.user != null) {
         await firestore.collection("user").doc(userCredential.user!.uid).set({
+          "uid": userCredential.user!.uid,
           "name": name,
           "email": email,
           "role": role,
-          "createdAt": createdAt
+          "createdAt": DateTime.now().toIso8601String()
         });
+
         //Send email verification
         await userCredential.user!.sendEmailVerification();
       }
@@ -59,13 +58,37 @@ class AuthService {
     required String password,
   }) async {
     try {
+      //login account with email and password to firebase auth
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      //Getting data for user login
       UserModel user = await UserService().getUserById(
         userCredential.user!.uid,
       );
+      //returning the data data
+      return user;
+    } on FirebaseAuthException catch (e) {
+      throw FirebaseException(
+        message: e.code.toString(),
+        plugin: e.code.toString(),
+      );
+    } catch (e) {
+      throw FirebaseException(
+        plugin: e.toString(),
+        message: e.toString(),
+      );
+    }
+  }
+
+  Future<UserModel> checkLoginUser() async {
+    try {
+      //Getting data for user login
+      UserModel user = await UserService().getUserById(
+        auth.currentUser!.uid,
+      );
+      //returning the data data
       return user;
     } on FirebaseAuthException catch (e) {
       throw FirebaseException(
