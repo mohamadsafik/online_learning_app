@@ -18,19 +18,18 @@ class RegisterLoading extends RegisterState {
 }
 
 class RegisterError extends RegisterState {
-  final String? message;
-  const RegisterError({this.message});
+  final String message;
+  const RegisterError({required this.message});
 
   @override
   List<Object> get props => [];
 }
 
 class RegisterSuccess extends RegisterState {
-  final String? message;
-  final UserModel user;
+  final String message;
+
   const RegisterSuccess({
-    this.message,
-    required this.user,
+    required this.message,
   });
 
   @override

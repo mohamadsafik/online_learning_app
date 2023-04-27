@@ -18,10 +18,8 @@ class CheckLoginLoading extends CheckLoginState {
 }
 
 class CheckLoginSuccess extends CheckLoginState {
-  final UserModel user;
-  const CheckLoginSuccess({required this.user});
-  @override
-  List<Object> get props => [user];
+  final UserModel data;
+  const CheckLoginSuccess({required this.data});
 }
 
 class CheckLoginError extends CheckLoginState {

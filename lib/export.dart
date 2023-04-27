@@ -5,23 +5,22 @@ export 'package:online_learning_app/widgets/bottom_navigation_item.dart';
 export 'package:online_learning_app/screens/auth/forgot_password_screen.dart';
 export 'package:online_learning_app/screens/user/user_settings_screen.dart';
 export 'package:online_learning_app/screens/user/user_main_screen.dart';
-export 'package:online_learning_app/services/course_services.dart';
+
 export 'package:online_learning_app/screens/admin/admin_home_screen.dart';
 export 'package:online_learning_app/screens/author/author_home_screen.dart';
 export 'package:online_learning_app/bloc/auth/login/login_bloc.dart';
-export 'package:online_learning_app/services/auth_services.dart';
+
 export 'package:online_learning_app/bloc/course/add_course/add_course_bloc.dart';
-export '../models/user_model.dart';
+
 export 'dart:io';
 export 'dart:math';
-export 'package:percent_indicator/percent_indicator.dart';
+
 // export 'package:image_picker/image_picker.dart';
-export 'package:firebase_storage/firebase_storage.dart';
-export 'package:online_learning_app/models/course_model.dart';
+export 'package:online_learning_app/data/models/course_model.dart';
 // export 'package:path_provider/path_provider.dart';
 export 'package:online_learning_app/screens/author/add_course_screen.dart';
 export 'package:online_learning_app/bloc/auth/check_login/check_login_bloc.dart';
-export 'package:online_learning_app/services/user_services.dart';
+
 export 'package:online_learning_app/screens/admin/add_author_screen.dart';
 export 'package:online_learning_app/screens/admin/all_datas_screen.dart';
 export 'package:online_learning_app/screens/auth/tes.dart';

@@ -1,5 +1,5 @@
+import 'package:online_learning_app/bloc/auth/check_login/check_login_bloc.dart';
 import 'package:online_learning_app/export.dart';
-import 'package:online_learning_app/widgets/persistent.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -11,69 +11,61 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Timer(
-      const Duration(
-        seconds: 5,
-      ),
-      () {},
-    );
+    context.read<CheckLoginBloc>().add(CheckUserLoginEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CheckLoginBloc, CheckLoginState>(
-      bloc: context.read<CheckLoginBloc>()..add(CheckUserLoginEvent()),
-      builder: (context, state) {
+    return BlocListener<CheckLoginBloc, CheckLoginState>(
+      listener: (context, state) {
         if (state is CheckLoginSuccess) {
-          if (state.user.role == 'admin') {
-            return AdminHomeScreen(
-              arguments: {
-                "uid": state.user.uid,
-                "name": state.user.name,
-                "role": state.user.role,
-                "email": state.user.email,
+          if (state.data.role == 'ADMIN') {
+            Timer(
+              const Duration(
+                seconds: 3,
+              ),
+              () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/admin-main', (route) => false);
               },
             );
-          } else if (state.user.role == 'author') {
-            return AuthorHomeScreen(
-              arguments: {
-                "uid": state.user.uid,
-                "name": state.user.name,
-                "role": state.user.role,
-                "email": state.user.email,
-              },
-            );
+          } else if (state.data.role == 'AUTHOR') {
+            Timer(
+                const Duration(
+                  seconds: 3,
+                ), () {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/author-main', (route) => false);
+            });
           } else {
-            return BottomNavBar(
-              arguments: {
-                "uid": state.user.uid,
-                "name": state.user.name,
-                "role": state.user.role,
-                "email": state.user.email,
-              },
-            );
+            Timer(
+                const Duration(
+                  seconds: 3,
+                ), () {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/main', (route) => false);
+            });
           }
-        } else if (state is CheckLoginLoading) {
-          return const Scaffold(
-            backgroundColor: Colors.white,
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
         } else if (state is CheckLoginError) {
-          return AuthScreen();
+          Timer(
+              const Duration(
+                seconds: 3,
+              ), () {
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/auth', (route) => false);
+          });
         }
-        return CustomSplashScreen(
-          logo: 'assets/logo.png',
-          size: 120,
-          // title: 'Ini Title',
-          spacing: 10,
-          fontWeight: semibold,
-          fontSize: 22,
-          backgroundColor: kBackgroundColor,
-        );
       },
+      child: CustomSplashScreen(
+        logo: 'assets/logo.png',
+        size: 120,
+        // title: 'Ini Title',
+        spacing: 10,
+        fontWeight: semibold,
+        fontSize: 22,
+        backgroundColor: kBackgroundColor,
+      ),
     );
   }
 }

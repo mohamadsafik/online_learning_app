@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            state.user.name,
+                            state.data.name,
                             style: blackTextStyle.copyWith(
                               fontSize: 20,
                               fontWeight: bold,
@@ -50,18 +50,18 @@ class _HomeScreenState extends State<HomeScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Halo,',
-                                  style: greyTextStyle.copyWith(
-                                    fontSize: 14,
-                                    fontWeight: regular,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  state.user.name,
+                                  state.user.data!.name.toString(),
                                   style: blackTextStyle.copyWith(
                                     fontSize: 20,
                                     fontWeight: bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 6),
+                                Text(
+                                  state.user.data!.email.toString(),
+                                  style: greyTextStyle.copyWith(
+                                    fontSize: 14,
+                                    fontWeight: regular,
                                   ),
                                 ),
                               ],
@@ -82,9 +82,57 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
+            const SizedBox(height: 20),
+            TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              textInputAction: TextInputAction.next,
+              // validator: (val) {
+              // widget.validated = false;
+              // if (val == null || val.isEmpty) {
+              //   return "Email is required";
+              // } else if (!val.toString().contains('@gmail')) {
+              //   return 'Enter valid Email';
+              // } else {
+              //   widget.validated = true;
+              // }
+              // return null;
+              // },
+              // controller: widget.loginEmailC,
+              autocorrect: false,
+              style: blackTextStyle.copyWith(
+                fontSize: 14,
+                fontWeight: regular,
+              ),
+              cursorColor: kBlackColor,
+              decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: const BorderSide(
+                    color: kPrimaryColor,
+                  ),
+                ),
+                hintText: 'Search...',
+                hintStyle: greyTextStyle.copyWith(
+                  fontWeight: regular,
+                  fontSize: 14,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: const BorderSide(
+                    width: 0.5,
+                    color: kGreyColor,
+                  ),
+                ),
+                prefixIcon: const Icon(
+                  Icons.search_rounded,
+                  size: 20,
+                  color: kGreyColor,
+                ),
+              ),
+            ),
             const SizedBox(height: 30),
             Text(
-              'Kursus yang kamu ikuti',
+              'Popular Courses',
               style: blackTextStyle.copyWith(
                 fontSize: 16,
                 fontWeight: semibold,
@@ -94,187 +142,59 @@ class _HomeScreenState extends State<HomeScreen> {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(right: 20),
-                    width: 200,
-                    decoration: BoxDecoration(
-                      color: Colors.lime.shade50,
-                      // border: Border.all(color: kPrimaryColor),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 20,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Icon(
-                            Icons.accessible_forward_outlined,
-                            size: 50,
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            'Javascript Dasar',
-                            style: blackTextStyle.copyWith(
-                              fontSize: 20,
-                              fontWeight: semibold,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            'Essential JavaScript course for beginners. Fundamentals covered comprehensively.',
-                            style: blackTextStyle.copyWith(
-                              fontSize: 12,
-                              fontWeight: regular,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Completed',
-                                style: blackTextStyle.copyWith(
-                                  fontSize: 12,
-                                  fontWeight: regular,
-                                ),
-                              ),
-                              Text(
-                                '60%',
-                                style: orangeTextStyle.copyWith(
-                                  fontSize: 14,
-                                  fontWeight: semibold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                    color: kRedColor,
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.logout),
                     ),
                   ),
+                  const SizedBox(width: 16),
                   Container(
-                    width: 200,
-                    decoration: BoxDecoration(
-                      color: Colors.lime.shade50,
-                      // border: Border.all(color: kPrimaryColor),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 20,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Icon(
-                            Icons.accessible_forward_outlined,
-                            size: 50,
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            'Javascript Dasar',
-                            style: blackTextStyle.copyWith(
-                              fontSize: 20,
-                              fontWeight: semibold,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            'Essential JavaScript course for beginners. Fundamentals covered comprehensively.',
-                            style: blackTextStyle.copyWith(
-                              fontSize: 12,
-                              fontWeight: regular,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Completed',
-                                style: blackTextStyle.copyWith(
-                                  fontSize: 12,
-                                  fontWeight: regular,
-                                ),
-                              ),
-                              Text(
-                                '60%',
-                                style: orangeTextStyle.copyWith(
-                                  fontSize: 14,
-                                  fontWeight: semibold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                    color: kRedColor,
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.logout),
                     ),
                   ),
+                  const SizedBox(width: 16),
+                  Container(
+                    color: kRedColor,
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.logout),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Container(
+                    color: kRedColor,
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.logout),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Container(
+                    color: kRedColor,
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.logout),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Container(
+                    color: kRedColor,
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.logout),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
                 ],
               ),
-            ),
-            const SizedBox(height: 30),
-            // SingleChildScrollView(
-            //   scrollDirection: Axis.horizontal,
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     children: [
-            //       Container(
-            //         color: kRedColor,
-            //         child: IconButton(
-            //           onPressed: () {},
-            //           icon: const Icon(Icons.logout),
-            //         ),
-            //       ),
-            //       const SizedBox(width: 16),
-            //       Container(
-            //         color: kRedColor,
-            //         child: IconButton(
-            //           onPressed: () {},
-            //           icon: const Icon(Icons.logout),
-            //         ),
-            //       ),
-            //       const SizedBox(width: 16),
-            //       Container(
-            //         color: kRedColor,
-            //         child: IconButton(
-            //           onPressed: () {},
-            //           icon: const Icon(Icons.logout),
-            //         ),
-            //       ),
-            //       const SizedBox(width: 16),
-            //       Container(
-            //         color: kRedColor,
-            //         child: IconButton(
-            //           onPressed: () {},
-            //           icon: const Icon(Icons.logout),
-            //         ),
-            //       ),
-            //       const SizedBox(width: 16),
-            //       Container(
-            //         color: kRedColor,
-            //         child: IconButton(
-            //           onPressed: () {},
-            //           icon: const Icon(Icons.logout),
-            //         ),
-            //       ),
-            //       const SizedBox(width: 16),
-            //       Container(
-            //         color: kRedColor,
-            //         child: IconButton(
-            //           onPressed: () {},
-            //           icon: const Icon(Icons.logout),
-            //         ),
-            //       ),
-            //       const SizedBox(width: 16),
-            //     ],
-            //   ),
-            // )
+            )
           ],
         ),
       ),

@@ -230,7 +230,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             const Icon(Icons.beenhere_rounded,
                                 color: Colors.white),
                             const SizedBox(width: 12),
-                            Text(state.message!),
+                            Text(state.message),
                           ],
                         ),
                       ),
@@ -268,10 +268,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ? null
                             : context.read<RegisterBloc>().add(
                                   RegisterUserEvent(
-                                    name: widget.nameC.text,
                                     email: widget.regisEmailC.text,
-                                    role: "mahasiswa",
                                     password: widget.regisPasswordC.text,
+                                    dateBirth: '2000-10-10',
+                                    fullName: widget.nameC.text,
+                                    gender: 'M',
+                                    userName: widget.nameC.text,
                                   ),
                                 );
                       }

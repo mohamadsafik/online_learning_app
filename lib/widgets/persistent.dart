@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:online_learning_app/screens/user/user_explore_screen.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-
 import '../export.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key, required this.arguments}) : super(key: key);

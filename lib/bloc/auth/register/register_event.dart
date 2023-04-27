@@ -8,15 +8,19 @@ abstract class RegisterEvent extends Equatable {
 }
 
 class RegisterUserEvent extends RegisterEvent {
-  final String name;
+  final String userName;
   final String email;
-  final String role;
   final String password;
+  final String dateBirth;
+  final String gender;
+  final String fullName;
 
   const RegisterUserEvent({
-    required this.name,
+    required this.userName,
     required this.email,
-    required this.role,
     required this.password,
+    required this.dateBirth,
+    required this.gender,
+    required this.fullName,
   });
 }

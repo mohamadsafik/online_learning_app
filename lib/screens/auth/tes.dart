@@ -102,7 +102,6 @@ class _CheckRoleScreenState extends State<CheckRoleScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          AuthService().logout();
           Navigator.pushNamed(context, '/auth');
         },
         child: const Text('Logout'),

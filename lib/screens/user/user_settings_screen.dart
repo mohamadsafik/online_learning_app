@@ -1,9 +1,11 @@
+import 'package:online_learning_app/bloc/auth/check_login/check_login_bloc.dart';
+import 'package:online_learning_app/constant/storage_services.dart';
 import 'package:online_learning_app/export.dart';
 
 class SettingsScreen extends StatelessWidget {
   final Map<String, String> arguments;
 
-  const SettingsScreen({super.key, required this.arguments});
+  SettingsScreen({super.key, required this.arguments});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,6 @@ class SettingsScreen extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              const SizedBox(height: 50),
               Padding(
                 padding: const EdgeInsets.only(top: 50),
                 child: Column(
@@ -27,7 +28,7 @@ class SettingsScreen extends StatelessWidget {
                       builder: (context, state) {
                         if (state is CheckLoginSuccess) {
                           return Text(
-                            state.user.name,
+                            state.data.name,
                             style: blackTextStyle.copyWith(
                               fontSize: 20,
                               fontWeight: bold,
@@ -38,7 +39,7 @@ class SettingsScreen extends StatelessWidget {
                             builder: (context, state) {
                               if (state is LoginSuccess) {
                                 return Text(
-                                  state.user.name,
+                                  state.user.data!.name.toString(),
                                   style: blackTextStyle.copyWith(
                                     fontSize: 20,
                                     fontWeight: bold,
@@ -110,8 +111,10 @@ class SettingsScreen extends StatelessWidget {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    AuthService().logout();
-                                    Navigator.pushNamed(context, '/auth');
+                                    storage.deleteAllData().then((_) {
+                                      Navigator.pushNamedAndRemoveUntil(
+                                          context, "/", (route) => false);
+                                    });
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         duration: const Duration(seconds: 3),

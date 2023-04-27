@@ -38,7 +38,7 @@ class StreamAllUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: UserService().getAllUser(),
+      // stream: UserService().getAllUser(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return const Text('Something went wrong');
@@ -90,7 +90,6 @@ class StreamAllUser extends StatelessWidget {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    UserService().deleteData(data['uid']);
                                     Navigator.pop(context);
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(

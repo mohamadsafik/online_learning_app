@@ -1,3 +1,4 @@
+import 'package:online_learning_app/constant/storage_services.dart';
 import 'package:online_learning_app/export.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -200,10 +201,16 @@ class _LoginScreenState extends State<LoginScreen> {
               BlocConsumer<LoginBloc, LoginState>(
                 listener: (context, state) {
                   if (state is LoginSuccess) {
-                    if (state.user.role == 'admin') {
+                    var user = state.user.data;
+                    storage.saveData(
+                        idUser: "${user!.idUser}",
+                        fullname: "${user.name}",
+                        role: "${user.role}",
+                        email: "${user.email}");
+                    if (state.user.data!.role == 'ADMIN') {
                       Navigator.pushNamedAndRemoveUntil(
                           context, '/admin-main', (route) => false);
-                    } else if (state.user.role == 'author') {
+                    } else if (state.user.data!.role == 'AUTHOR') {
                       Navigator.pushNamedAndRemoveUntil(
                           context, '/author-main', (route) => false);
                     } else {
@@ -279,7 +286,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         //Store the data
                         context.read<LoginBloc>().add(
                               LoginUserEvent(
-                                email: widget.loginEmailC.text,
+                                emailOrPassword: widget.loginEmailC.text,
                                 password: widget.loginPasswordC.text,
                               ),
                             );

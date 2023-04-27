@@ -1,6 +1,7 @@
+import 'package:online_learning_app/data/api_services/api_services.dart';
+import 'package:online_learning_app/data/models/auth/login_model.dart';
 import 'package:online_learning_app/export.dart';
 import 'package:equatable/equatable.dart';
-import 'package:online_learning_app/models/user_model.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -8,15 +9,20 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(LoginInitial()) {
     on<LoginUserEvent>((event, emit) async {
+      emit(LoginLoading());
       try {
-        emit(LoginLoading());
-        UserModel user = await AuthService().loginUser(
-          email: event.email,
+        var data = await ApiServices().login(
+          emailOrPassword: event.emailOrPassword,
           password: event.password,
         );
-        emit(LoginSuccess(user: user));
+        print(data);
+        if (data["result"] == true) {
+          emit(LoginSuccess(user: LoginModel.fromJson(data)));
+        } else {
+          emit(LoginError(message: data["message"]));
+        }
       } catch (e) {
-        emit(LoginError(message: e.toString()));
+        emit(const LoginError(message: 'INTERNAL SERVER ERROR'));
       }
     });
   }

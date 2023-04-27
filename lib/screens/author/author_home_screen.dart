@@ -1,5 +1,3 @@
-import 'package:online_learning_app/services/course_services.dart';
-
 import '../../export.dart';
 
 class AuthorHomeScreen extends StatelessWidget {
@@ -24,7 +22,7 @@ class AuthorHomeScreen extends StatelessWidget {
           child: BlocBuilder<CheckLoginBloc, CheckLoginState>(
             builder: (context, state) {
               if (state is CheckLoginSuccess) {
-                return Text("Author : ${state.user.name}");
+                return Text("Author : ${state.data.name}");
               } else if (state is CheckLoginLoading) {
                 return const Center(
                   child: Text(''),
@@ -33,7 +31,7 @@ class AuthorHomeScreen extends StatelessWidget {
                 return BlocBuilder<LoginBloc, LoginState>(
                   builder: (context, state) {
                     if (state is LoginSuccess) {
-                      return Text("Author : ${state.user.name}");
+                      return Text("Author : ${state.user.data!.name}");
                     } else {
                       return const Text('undefined');
                     }
@@ -78,7 +76,6 @@ class AuthorHomeScreen extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () {
-                      AuthService().logout();
                       Navigator.pushNamed(context, '/auth');
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -287,7 +284,6 @@ class StreamCourse extends StatelessWidget {
                                     ),
                                     TextButton(
                                       onPressed: () {
-                                        CourseService().deleteData(data['uid']);
                                         Navigator.pop(context);
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(

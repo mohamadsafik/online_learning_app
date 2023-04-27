@@ -248,10 +248,12 @@ class _AddAuthorScreenState extends State<AddAuthorScreen> {
                             //Store the data
                             context.read<RegisterBloc>().add(
                                   RegisterUserEvent(
-                                    name: widget.nameC.text,
                                     email: widget.regisEmailC.text,
-                                    role: "author",
                                     password: widget.regisPasswordC.text,
+                                    dateBirth: '',
+                                    fullName: '',
+                                    gender: '',
+                                    userName: '',
                                   ),
                                 );
                           }
