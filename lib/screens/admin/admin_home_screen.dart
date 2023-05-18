@@ -1,3 +1,4 @@
+import '../../constant/storage_services.dart';
 import '../../export.dart';
 
 class AdminHomeScreen extends StatelessWidget {
@@ -5,11 +6,19 @@ class AdminHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SafeArea(
         child: Center(
-          child: Text(
-            'ini halaman home Admin',
+          child: GestureDetector(
+            onTap: () {
+              storage.deleteAllData().then((_) {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, "/", (route) => false);
+              });
+            },
+            child: Text(
+              'ini halaman home Admin',
+            ),
           ),
         ),
       ),

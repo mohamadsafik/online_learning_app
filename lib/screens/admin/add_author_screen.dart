@@ -212,7 +212,7 @@ class _AddAuthorScreenState extends State<AddAuthorScreen> {
                                 const Icon(Icons.beenhere_rounded,
                                     color: Colors.white),
                                 const SizedBox(width: 12),
-                                Text(state.message!),
+                                Text(state.message),
                               ],
                             ),
                           ),

@@ -10,67 +10,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import '../models/app/user_model.dart';
 
 class ApiServices {
-  _generateSignature(
-      {required String method,
-      required String relativeUrl,
-      required String requestBody,
-      required String timestamp}) {
-    requestBody.replaceAll(RegExp(r"\r+"), "");
-    requestBody.replaceAll(RegExp(r"\n+"), "");
-    requestBody.replaceAll(RegExp(r"\t+"), "");
-    // print("request body: " + requestBody);
-    // print(relativeUrl);
-    var stringToSign = '';
-    stringToSign += "${method.toUpperCase()}:";
-    stringToSign += "v3/$relativeUrl:";
-    stringToSign += "${AppConstants().apiKey}:";
-    stringToSign +=
-        "${sha256.convert(utf8.encode(requestBody)).toString().toLowerCase()}:";
-    stringToSign += timestamp;
-    // print("string to sign: " + stringToSign);
-    var key = utf8.encode(AppConstants().secretKey);
-    var bytes = utf8.encode(stringToSign);
-
-    var hmacSha256 = Hmac(sha256, key); // HMAC-SHA256
-    var digest = hmacSha256.convert(bytes);
-
-    return digest.toString();
-  }
-
-  generateHeader({
-    required String method,
-    required String relativeUrl,
-    required Map<String, dynamic>? body,
-  }) async {
-    DateTime now = DateTime.now().toUtc();
-    String timestamp =
-        "${DateFormat('yyyy-MM-dd').format(now)}T${DateFormat('HH:mm:ss').format(now)}.000Z";
-
-    String signature = _generateSignature(
-        method: method.toUpperCase(),
-        relativeUrl: relativeUrl,
-        requestBody: json.encode(body).toString(),
-        timestamp: timestamp);
-
-    Map<String, String> header = {};
-
-    header = {
-      "Authorization": base64.encode(utf8
-          .encode('${AppConstants().clientID}:${AppConstants().clientSecret}')),
-      "Content-Type": "application/json",
-      "Origin": "emaskita.id",
-      "X-GSI-Key": AppConstants().secretKey,
-      "X-GSI-Timestamp": timestamp,
-      "X-GSI-Signature": signature
-    };
-    // print("ini header" + "${header}");
-    return header;
-  }
-
   _postData({required String relativeUrl, Map<String, dynamic>? body}) async {
-    Map<String, String> headers = await generateHeader(
-        method: 'POST', relativeUrl: relativeUrl, body: body);
-
     var url = Uri.parse(AppConstants().baseUrl + relativeUrl);
 
     var response = await http.post(url, body: body);
@@ -88,9 +28,6 @@ class ApiServices {
   }
 
   _getData({required String relativeUrl}) async {
-    Map<String, String> headers =
-        await generateHeader(method: 'GET', relativeUrl: relativeUrl, body: {});
-
     var url = Uri.parse(AppConstants().baseUrl + relativeUrl);
 
     http.Response response = await http.get(url);
@@ -103,14 +40,6 @@ class ApiServices {
       return throw Exception();
     }
   }
-
-  // Future login() async {
-  //   String? user = await storage.readData('user');
-  //   UserModel appUserModel = UserModel.deserialize(user!);
-  //   var body = {"id_customer": appUserModel.idUser};
-  //   print(body);
-  //   return await _postData(relativeUrl: 'Emaskita_point/is_active', body: body);
-  // }
 
   Future register({
     required String userName,
@@ -143,4 +72,35 @@ class ApiServices {
     print(body);
     return await _postData(relativeUrl: '/login', body: body);
   }
+
+  Future addCourse({
+    required String categoryId,
+    required String memberId,
+    required String transactionId,
+    required String title,
+    required String desc,
+    required String image,
+  }) async {
+    String? user = await storage.readData('user');
+    UserModel appUserModel = UserModel.deserialize(user!);
+    Map<String, dynamic> body = {
+      'author_id': appUserModel.idUser,
+      'category_id': categoryId,
+      'member_id': memberId,
+      'transaction_id': transactionId,
+      'title': title,
+      'description': desc,
+      'image': image
+    };
+    print(body);
+    return await _postData(relativeUrl: '/course/add', body: body);
+  }
 }
+
+//  'author_id' => $request->author_id,
+//                 'category_id' => $request->category_id,
+//                 'member_id' => $request->member_id,
+//                 'transaction_id' => $request->transaction_id,
+//                 'title' => $request->title,
+//                 'description' => $request->description,
+//                 'image' => $request->image,

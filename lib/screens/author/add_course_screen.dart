@@ -1,9 +1,21 @@
 import 'package:online_learning_app/export.dart';
 
 class AddCourseScreen extends StatefulWidget {
+  const AddCourseScreen({super.key});
+
+  @override
+  State<AddCourseScreen> createState() => _AddCourseScreenState();
+}
+
+class _AddCourseScreenState extends State<AddCourseScreen> {
+  File? imageSelected;
+  final TextEditingController categoryId = TextEditingController();
+  final TextEditingController memberId = TextEditingController();
+  final TextEditingController transactionId = TextEditingController();
+  final TextEditingController title = TextEditingController();
+  final TextEditingController desc = TextEditingController();
+  final TextEditingController image = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController titleC = TextEditingController();
-  final TextEditingController descriptionC = TextEditingController();
   final List<String> category = [
     'Web Development',
     'Mobile Development',
@@ -15,22 +27,6 @@ class AddCourseScreen extends StatefulWidget {
   ];
   String? selectedCategory;
   String categoryValue = '';
-
-  AddCourseScreen({super.key});
-
-  @override
-  State<AddCourseScreen> createState() => _AddCourseScreenState();
-}
-
-class _AddCourseScreenState extends State<AddCourseScreen> {
-  File? imageSelected;
-  // Future getImageFromGallery() async {
-  //   final ImagePicker _picker = ImagePicker();
-  //   final XFile? imagePicked =
-  //       await _picker.pickImage(source: ImageSource.gallery);
-  //   imageSelected = File(imagePicked!.path);
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,12 +40,12 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
           padding: const EdgeInsets.only(top: 40),
           child: SingleChildScrollView(
             child: Form(
-              key: widget._formKey,
+              key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextFormField(
-                    controller: widget.titleC,
+                    controller: title,
                     textInputAction: TextInputAction.next,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (val) {
@@ -58,7 +54,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                       }
                       return null;
                     },
-                    // controller: widget.nameC,
+                    // controller: nameC,
                     autocorrect: false,
                     style: blackTextStyle.copyWith(
                       fontSize: 14,
@@ -119,7 +115,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                             ),
                           ],
                         ),
-                        items: widget.category
+                        items: category
                             .map(
                               (item) => DropdownMenuItem<String>(
                                 value: item,
@@ -135,11 +131,11 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                               ),
                             )
                             .toList(),
-                        value: widget.selectedCategory,
+                        value: selectedCategory,
                         onChanged: (value) {
                           setState(() {
-                            widget.selectedCategory = value as String;
-                            widget.categoryValue = value;
+                            selectedCategory = value as String;
+                            categoryValue = value;
                           });
                         },
                         //
@@ -177,7 +173,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
-                    controller: widget.descriptionC,
+                    controller: desc,
                     maxLines: 3,
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.emailAddress,
@@ -248,7 +244,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 20),
                   BlocConsumer<AddCourseBloc, AddCourseState>(
                     listener: (context, state) {
                       if (state is AddCourseSuccess) {
@@ -297,7 +293,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                     builder: (context, state) {
                       return CustomButton(
                         onPressed: () {
-                          if (widget._formKey.currentState!.validate()) {
+                          if (_formKey.currentState!.validate()) {
                             // If the form is valid, display a snackbar. In the real world,
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -320,12 +316,15 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                               ),
                             );
                             //Store the data
+                            print(selectedCategory);
                             context.read<AddCourseBloc>().add(
                                   AddNewCourseEvent(
-                                    title: widget.titleC.text,
-                                    category: widget.categoryValue,
-                                    description: widget.descriptionC.text,
-                                  ),
+                                      categoryId: '11',
+                                      desc: desc.text,
+                                      image: '11',
+                                      memberId: '11',
+                                      title: title.text,
+                                      transactionId: '11'),
                                 );
                           }
                         },

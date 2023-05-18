@@ -16,7 +16,7 @@ export 'dart:io';
 export 'dart:math';
 
 // export 'package:image_picker/image_picker.dart';
-export 'package:online_learning_app/data/models/course_model.dart';
+
 // export 'package:path_provider/path_provider.dart';
 export 'package:online_learning_app/screens/author/add_course_screen.dart';
 export 'package:online_learning_app/bloc/auth/check_login/check_login_bloc.dart';

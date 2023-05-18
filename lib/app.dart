@@ -1,5 +1,5 @@
+import 'package:online_learning_app/screens/author/add_video_screen.dart';
 import 'package:online_learning_app/widgets/persistent.dart';
-
 import 'export.dart';
 
 class MyApp extends StatelessWidget {
@@ -41,6 +41,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(),
       debugShowCheckedModeBanner: false,
+      // home: AddVideoScreen(),
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),
