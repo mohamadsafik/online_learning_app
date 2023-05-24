@@ -20,7 +20,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Cari Kursus Kamu',
+                  'Cari Kursus',
                   style: blackTextStyle.copyWith(
                     fontSize: 20,
                     fontWeight: bold,
@@ -60,7 +60,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 hintText: 'Javascript Dasar..',
                 hintStyle: greyTextStyle.copyWith(
                   fontWeight: regular,
-                  fontSize: 14,
+                  fontSize: 12,
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -76,7 +76,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 24),
             Text(
               'Kategori',
               style: blackTextStyle.copyWith(
@@ -96,14 +96,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       width: 100,
                       height: 30,
                       decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 1, color: Colors.lightBlue.shade100),
+                        border: Border.all(width: 1, color: kPrimaryColor),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Center(
                           child: Text(
                         'Web Dev',
-                        style: blackTextStyle.copyWith(
+                        style: orangeTextStyle.copyWith(
                           fontSize: 12,
                           fontWeight: regular,
                         ),
@@ -117,79 +116,162 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       width: 100,
                       height: 30,
                       decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 1, color: Colors.lightBlue.shade100),
+                        color: kPrimaryColor,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Center(
-                          child: Text(
-                        'Mobile Dev',
-                        style: blackTextStyle.copyWith(
-                          fontSize: 12,
-                          fontWeight: regular,
+                        child: Text(
+                          'Mobile Dev',
+                          style: whiteTextStyle.copyWith(
+                            fontSize: 12,
+                            fontWeight: bold,
+                          ),
                         ),
-                      )),
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-            // SingleChildScrollView(
-            //   scrollDirection: Axis.horizontal,
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     children: [
-            //       Container(
-            //         color: kRedColor,
-            //         child: IconButton(
-            //           onPressed: () {},
-            //           icon: const Icon(Icons.logout),
-            //         ),
-            //       ),
-            //       const SizedBox(width: 16),
-            //       Container(
-            //         color: kRedColor,
-            //         child: IconButton(
-            //           onPressed: () {},
-            //           icon: const Icon(Icons.logout),
-            //         ),
-            //       ),
-            //       const SizedBox(width: 16),
-            //       Container(
-            //         color: kRedColor,
-            //         child: IconButton(
-            //           onPressed: () {},
-            //           icon: const Icon(Icons.logout),
-            //         ),
-            //       ),
-            //       const SizedBox(width: 16),
-            //       Container(
-            //         color: kRedColor,
-            //         child: IconButton(
-            //           onPressed: () {},
-            //           icon: const Icon(Icons.logout),
-            //         ),
-            //       ),
-            //       const SizedBox(width: 16),
-            //       Container(
-            //         color: kRedColor,
-            //         child: IconButton(
-            //           onPressed: () {},
-            //           icon: const Icon(Icons.logout),
-            //         ),
-            //       ),
-            //       const SizedBox(width: 16),
-            //       Container(
-            //         color: kRedColor,
-            //         child: IconButton(
-            //           onPressed: () {},
-            //           icon: const Icon(Icons.logout),
-            //         ),
-            //       ),
-            //       const SizedBox(width: 16),
-            //     ],
-            //   ),
-            // )
+            const SizedBox(height: 32),
+            SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 150,
+                            width: 130,
+                            decoration: BoxDecoration(
+                              color: Colors.amber,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: const Center(child: Text('thumbnail')),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'Fundamental PHP\nUntuk Menuju\nFramework Laravel\n10Untuk Pemula',
+                            style: blackTextStyle.copyWith(
+                              fontSize: 14,
+                              fontWeight: bold,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'Fikri Ilhamsyah',
+                            style: greyTextStyle.copyWith(
+                              fontSize: 12,
+                              fontWeight: regular,
+                            ),
+                          )
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 150,
+                            width: 130,
+                            decoration: BoxDecoration(
+                              color: Colors.amber,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: const Center(child: Text('thumbnail')),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'Fundamental PHP\nUntuk Menuju\nFramework Laravel\n10Untuk Pemula',
+                            style: blackTextStyle.copyWith(
+                              fontSize: 14,
+                              fontWeight: bold,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'Fikri Ilhamsyah',
+                            style: greyTextStyle.copyWith(
+                              fontSize: 12,
+                              fontWeight: regular,
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 32),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 150,
+                            width: 130,
+                            decoration: BoxDecoration(
+                              color: Colors.amber,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: const Center(child: Text('thumbnail')),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'Fundamental PHP\nUntuk Menuju\nFramework Laravel\n10Untuk Pemula',
+                            style: blackTextStyle.copyWith(
+                              fontSize: 14,
+                              fontWeight: bold,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'Fikri Ilhamsyah',
+                            style: greyTextStyle.copyWith(
+                              fontSize: 12,
+                              fontWeight: regular,
+                            ),
+                          )
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 150,
+                            width: 130,
+                            decoration: BoxDecoration(
+                              color: Colors.amber,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: const Center(child: Text('thumbnail')),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'Fundamental PHP\nUntuk Menuju\nFramework Laravel\n10Untuk Pemula',
+                            style: blackTextStyle.copyWith(
+                              fontSize: 14,
+                              fontWeight: bold,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'Fikri Ilhamsyah',
+                            style: greyTextStyle.copyWith(
+                              fontSize: 12,
+                              fontWeight: regular,
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

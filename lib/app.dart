@@ -1,4 +1,5 @@
 import 'package:online_learning_app/screens/author/add_video_screen.dart';
+import 'package:online_learning_app/screens/user/detail/user_detail_course.dart';
 import 'package:online_learning_app/widgets/persistent.dart';
 import 'export.dart';
 
@@ -41,7 +42,9 @@ class App extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(),
       debugShowCheckedModeBanner: false,
-      // home: AddVideoScreen(),
+      // home: BottomNavBar(
+      //   arguments: {},
+      // ),
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),
@@ -52,7 +55,7 @@ class App extends StatelessWidget {
         '/profile': (context) => const ProfileScreen(),
         //Author Route
         '/author-main': (context) => const AuthorHomeScreen(arguments: {}),
-        '/add-course': (context) => AddCourseScreen(),
+        '/add-course': (context) => const AddCourseScreen(),
         //Admin Route
         '/admin-main': (context) => const AdminHomeScreen(arguments: {}),
         '/add-author': (context) => AddAuthorScreen(),

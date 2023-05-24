@@ -15,7 +15,7 @@ class SettingsScreen extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 50),
+                padding: const EdgeInsets.only(top: 75),
                 child: Column(
                   children: [
                     const SizedBox(
@@ -112,8 +112,7 @@ class SettingsScreen extends StatelessWidget {
                                 TextButton(
                                   onPressed: () {
                                     storage.deleteAllData().then((_) {
-                                      Navigator.pushNamedAndRemoveUntil(
-                                          context, "/", (route) => false);
+                                      Navigator.pushNamedAndRemoveUntil(context, "/", (route) => false);
                                     });
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(

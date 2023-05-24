@@ -7,7 +7,12 @@ class RegisterScreen extends StatefulWidget {
   TextEditingController regisPasswordC = TextEditingController();
   TextEditingController regisEmailC = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
+  final List<String> jk = [
+    'Laki-Laki',
+    'Perempuan',
+  ];
+  String? selectedJk;
+  String jkValue = '';
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
@@ -186,9 +191,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   suffixIcon: IconButton(
                     onPressed: _showPassword,
-                    icon: widget._obscureText == true
-                        ? const Icon(Icons.visibility_off, size: 20)
-                        : const Icon(Icons.visibility, size: 20),
+                    icon: widget._obscureText == true ? const Icon(Icons.visibility_off, size: 20) : const Icon(Icons.visibility, size: 20),
                     color: kPrimaryColor,
                   ),
                 ),
@@ -204,8 +207,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         backgroundColor: kGreenColor,
                         content: Row(
                           children: [
-                            const Icon(Icons.beenhere_rounded,
-                                color: Colors.white),
+                            const Icon(Icons.beenhere_rounded, color: Colors.white),
                             const SizedBox(width: 12),
                             Text(
                               'Register succesful!',
@@ -227,8 +229,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         backgroundColor: kRedColor,
                         content: Row(
                           children: [
-                            const Icon(Icons.beenhere_rounded,
-                                color: Colors.white),
+                            const Icon(Icons.beenhere_rounded, color: Colors.white),
                             const SizedBox(width: 12),
                             Text(state.message),
                           ],
@@ -245,19 +246,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       if (widget._formKey.currentState!.validate()) {
                         // If the form is valid, display a snackbar. In the real world,
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             behavior: SnackBarBehavior.floating,
                             elevation: 0,
                             backgroundColor: kLoadingColor,
                             content: Row(
-                              children: const [
+                              children: [
                                 Text('Loading'),
                                 SizedBox(width: 12),
                                 SizedBox(
                                   height: 10,
                                   width: 10,
-                                  child:
-                                      CircularProgressIndicator(strokeWidth: 1),
+                                  child: CircularProgressIndicator(strokeWidth: 1),
                                 )
                               ],
                             ),
@@ -270,10 +270,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   RegisterUserEvent(
                                     email: widget.regisEmailC.text,
                                     password: widget.regisPasswordC.text,
-                                    dateBirth: '2000-10-10',
+                                    dateBirth: '',
                                     fullName: widget.nameC.text,
-                                    gender: 'M',
-                                    userName: widget.nameC.text,
+                                    gender: '',
+                                    userName: '',
                                   ),
                                 );
                       }
@@ -284,8 +284,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       fontWeight: semibold,
                     ),
                     height: 55,
-                    backgroundColor:
-                        (state is RegisterLoading) ? kGreyColor : kPrimaryColor,
+                    backgroundColor: (state is RegisterLoading) ? kGreyColor : kPrimaryColor,
                     width: double.infinity,
                     borderRadius: 20,
                   );
