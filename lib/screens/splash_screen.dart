@@ -26,25 +26,22 @@ class _SplashScreenState extends State<SplashScreen> {
                 seconds: 3,
               ),
               () {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/admin-main', (route) => false);
+                Navigator.pushNamedAndRemoveUntil(context, '/admin-main', (route) => false);
               },
             );
-          } else if (state.data.role == 'AUTHOR') {
+          } else if (state.data.role == 'LECTURER') {
             Timer(
                 const Duration(
                   seconds: 3,
                 ), () {
-              Navigator.pushNamedAndRemoveUntil(
-                  context, '/author-main', (route) => false);
+              Navigator.pushNamedAndRemoveUntil(context, '/author-main', (route) => false);
             });
           } else {
             Timer(
                 const Duration(
                   seconds: 3,
                 ), () {
-              Navigator.pushNamedAndRemoveUntil(
-                  context, '/main', (route) => false);
+              Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
             });
           }
         } else if (state is CheckLoginError) {
@@ -52,8 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
               const Duration(
                 seconds: 3,
               ), () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, '/auth', (route) => false);
+            Navigator.pushNamedAndRemoveUntil(context, '/auth', (route) => false);
           });
         }
       },

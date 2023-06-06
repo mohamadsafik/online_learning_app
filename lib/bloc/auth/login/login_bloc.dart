@@ -12,7 +12,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(LoginLoading());
       try {
         var data = await ApiServices().login(
-          emailOrPassword: event.emailOrPassword,
+          emailOrUsername: event.emailOrUsername,
           password: event.password,
         );
         print(data);

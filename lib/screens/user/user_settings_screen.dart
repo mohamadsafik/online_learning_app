@@ -71,11 +71,15 @@ class SettingsScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
-                    const ListTile(
-                      contentPadding: EdgeInsets.all(0),
-                      leading: Icon(Icons.person),
-                      title: Text('My Profile'),
-                      trailing: Icon(Icons.keyboard_arrow_right),
+                    InkWell(
+                      // onTap: () => Navigator.of(context).pushNamed('/profil'),
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileScreen())),
+                      child: const ListTile(
+                        contentPadding: EdgeInsets.all(0),
+                        leading: Icon(Icons.person),
+                        title: Text('My Profile'),
+                        trailing: Icon(Icons.keyboard_arrow_right),
+                      ),
                     ),
                     InkWell(
                       onTap: () {

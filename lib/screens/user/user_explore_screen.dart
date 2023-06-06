@@ -141,35 +141,40 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 150,
-                            width: 130,
-                            decoration: BoxDecoration(
-                              color: Colors.amber,
-                              borderRadius: BorderRadius.circular(5),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => DetailCourseScreen()));
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 150,
+                              width: 130,
+                              decoration: BoxDecoration(
+                                color: Colors.amber,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: const Center(child: Text('thumbnail')),
                             ),
-                            child: const Center(child: Text('thumbnail')),
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            'Fundamental PHP\nUntuk Menuju\nFramework Laravel\n10Untuk Pemula',
-                            style: blackTextStyle.copyWith(
-                              fontSize: 14,
-                              fontWeight: bold,
+                            const SizedBox(height: 12),
+                            Text(
+                              'Fundamental PHP\nUntuk Menuju\nFramework Laravel\n10Untuk Pemula',
+                              style: blackTextStyle.copyWith(
+                                fontSize: 14,
+                                fontWeight: bold,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            'Fikri Ilhamsyah',
-                            style: greyTextStyle.copyWith(
-                              fontSize: 12,
-                              fontWeight: regular,
-                            ),
-                          )
-                        ],
+                            const SizedBox(height: 12),
+                            Text(
+                              'Fikri Ilhamsyah',
+                              style: greyTextStyle.copyWith(
+                                fontSize: 12,
+                                fontWeight: regular,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

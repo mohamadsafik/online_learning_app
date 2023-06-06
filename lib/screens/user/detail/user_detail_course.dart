@@ -25,7 +25,12 @@ class DetailCourseScreen extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back_ios_rounded)),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.arrow_back_ios_rounded),
+                  ),
                   Text(
                     'Detail Kursus',
                     style: blackTextStyle.copyWith(fontSize: 16, fontWeight: semibold),

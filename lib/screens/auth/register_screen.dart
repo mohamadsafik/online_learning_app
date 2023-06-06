@@ -270,10 +270,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   RegisterUserEvent(
                                     email: widget.regisEmailC.text,
                                     password: widget.regisPasswordC.text,
-                                    dateBirth: '',
                                     fullName: widget.nameC.text,
-                                    gender: '',
-                                    userName: '',
+                                    userName: widget.nameC.text,
+                                    dateBirth: '2000-10-10',
                                   ),
                                 );
                       }

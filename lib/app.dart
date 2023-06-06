@@ -51,8 +51,9 @@ class App extends StatelessWidget {
         '/auth': (context) => AuthScreen(),
         //User Route
         '/main': (context) => const BottomNavBar(arguments: {}),
-        '/settings': (context) => SettingsScreen(arguments: {}),
-        '/profile': (context) => const ProfileScreen(),
+        '/settings': (context) => SettingsScreen(arguments: const {}),
+        '/profil': (context) => const ProfileScreen(),
+        '/detailCourse': (context) => const DetailCourseScreen(),
         //Author Route
         '/author-main': (context) => const AuthorHomeScreen(arguments: {}),
         '/add-course': (context) => const AddCourseScreen(),

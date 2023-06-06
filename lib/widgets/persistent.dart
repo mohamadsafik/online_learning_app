@@ -13,37 +13,38 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   List<Widget> _buildScreens() {
-    return [HomeScreen(arguments: widget.arguments), ExploreScreen(arguments: widget.arguments), SettingsScreen(arguments: widget.arguments)];
+    return [
+      HomeScreen(arguments: widget.arguments),
+      ExploreScreen(arguments: widget.arguments),
+      SettingsScreen(arguments: widget.arguments),
+    ];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
-        icon: const Icon(
-          CupertinoIcons.house,
-          size: 20,
-        ),
-        title: ("Home"),
-        activeColorPrimary: kPrimaryColor,
-        inactiveColorPrimary: CupertinoColors.systemGrey,
+        icon: const Icon(CupertinoIcons.house),
+        title: "Home",
+        activeColorPrimary: kWhiteColor,
+        activeColorSecondary: kBlackColor,
+        inactiveColorPrimary: kGreyColor,
+        iconSize: 18,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(
-          CupertinoIcons.compass,
-          size: 20,
-        ),
-        title: ("Jelajah"),
-        activeColorPrimary: kPrimaryColor,
-        inactiveColorPrimary: CupertinoColors.systemGrey,
+        icon: const Icon(CupertinoIcons.compass),
+        title: "Jelajah",
+        activeColorPrimary: kWhiteColor,
+        activeColorSecondary: kBlackColor,
+        inactiveColorPrimary: kGreyColor,
+        iconSize: 18,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(
-          CupertinoIcons.settings,
-          size: 20,
-        ),
-        title: ("Pengaturan"),
-        activeColorPrimary: kPrimaryColor,
-        inactiveColorPrimary: CupertinoColors.systemGrey,
+        icon: const Icon(CupertinoIcons.settings),
+        title: "Pengaturan",
+        activeColorPrimary: kWhiteColor,
+        activeColorSecondary: kBlackColor,
+        inactiveColorPrimary: kGreyColor,
+        iconSize: 18,
       ),
     ];
   }
@@ -80,7 +81,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         curve: Curves.ease,
         duration: Duration(milliseconds: 200),
       ),
-      navBarStyle: NavBarStyle.style9, // Choose the nav bar style with this property.
+      navBarStyle: NavBarStyle.style3, // Choose the nav bar style with this property.
     );
   }
 }

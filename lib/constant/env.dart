@@ -29,7 +29,7 @@ class AppConstants {
         break;
       case 'test':
         {
-          _baseUrl = "http://10.0.2.2:8000/api";
+          _baseUrl = "http://192.168.1.6:8000/api";
           _mobileID = "";
           _mobileSecret = "";
 

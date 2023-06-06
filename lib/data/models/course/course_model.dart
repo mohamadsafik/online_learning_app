@@ -37,17 +37,7 @@ class Data {
   String? createdAt;
   int? id;
 
-  Data(
-      {this.authorId,
-      this.categoryId,
-      this.memberId,
-      this.transactionId,
-      this.title,
-      this.description,
-      this.image,
-      this.updatedAt,
-      this.createdAt,
-      this.id});
+  Data({this.authorId, this.categoryId, this.memberId, this.transactionId, this.title, this.description, this.image, this.updatedAt, this.createdAt, this.id});
 
   Data.fromJson(Map<String, dynamic> json) {
     authorId = json['author_id'];

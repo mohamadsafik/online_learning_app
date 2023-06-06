@@ -44,7 +44,6 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Row(
                 children: [
-                  //Title
                   Text(
                     'Welcome Back',
                     style: orangeTextStyle.copyWith(
@@ -77,9 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 validator: (val) {
                   widget.validated = false;
                   if (val == null || val.isEmpty) {
-                    return "Email is required";
-                  } else if (!val.toString().contains('@')) {
-                    return 'Enter valid Email';
+                    return "Email or username is required";
                   } else {
                     widget.validated = true;
                   }
@@ -99,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: kPrimaryColor,
                     ),
                   ),
-                  hintText: 'Email',
+                  hintText: 'Email or username',
                   hintStyle: greyTextStyle.copyWith(
                     fontWeight: regular,
                     fontSize: 14,
@@ -162,9 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   suffixIcon: IconButton(
                     onPressed: _showPassword,
-                    icon: widget._obscureText == true
-                        ? const Icon(Icons.visibility_off, size: 20)
-                        : const Icon(Icons.visibility, size: 20),
+                    icon: widget._obscureText == true ? const Icon(Icons.visibility_off, size: 20) : const Icon(Icons.visibility, size: 20),
                     color: kPrimaryColor,
                   ),
                 ),
@@ -203,19 +198,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   if (state is LoginSuccess) {
                     var user = state.user.data;
                     storage.saveData(
-                        idUser: "${user!.idUser}",
-                        fullname: "${user.name}",
-                        role: "${user.role}",
-                        email: "${user.email}");
+                      idUser: "${user!.idUser}",
+                      fullname: "${user.name}",
+                      role: "${user.role}",
+                      email: "${user.email}",
+                    );
                     if (state.user.data!.role == 'ADMIN') {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, '/admin-main', (route) => false);
-                    } else if (state.user.data!.role == 'AUTHOR') {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, '/author-main', (route) => false);
+                      Navigator.pushNamedAndRemoveUntil(context, '/admin-main', (route) => false);
+                    } else if (state.user.data!.role == 'LECTURER') {
+                      Navigator.pushNamedAndRemoveUntil(context, '/author-main', (route) => false);
                     } else {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, '/main', (route) => false);
+                      Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
                     }
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -252,11 +245,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   } else {
                     //show snackbar loading
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
+                      const SnackBar(
                         behavior: SnackBarBehavior.floating,
                         backgroundColor: kLoadingColor,
                         content: Row(
-                          children: const [
+                          children: [
                             Text('Loading'),
                             SizedBox(width: 12),
                             SizedBox(
@@ -278,15 +271,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontWeight: semibold,
                     ),
                     height: 55,
-                    backgroundColor:
-                        (state is LoginLoading) ? kGreyColor : kPrimaryColor,
+                    backgroundColor: (state is LoginLoading) ? kGreyColor : kPrimaryColor,
                     onPressed: () {
                       if (widget._formKey.currentState!.validate()) {
                         // If the form is valid, display a snackbar. In the real world,
                         //Store the data
                         context.read<LoginBloc>().add(
                               LoginUserEvent(
-                                emailOrPassword: widget.loginEmailC.text,
+                                emailOrUsername: widget.loginEmailC.text,
                                 password: widget.loginPasswordC.text,
                               ),
                             );

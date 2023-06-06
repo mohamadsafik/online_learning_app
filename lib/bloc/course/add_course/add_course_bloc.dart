@@ -10,15 +10,14 @@ class AddCourseBloc extends Bloc<AddCourseEvent, AddCourseState> {
   AddCourseBloc() : super(AddCourseInitial()) {
     on<AddNewCourseEvent>((event, emit) async {
       emit(AddCourseLoading());
-
       try {
         var json = await ApiServices().addCourse(
-            categoryId: event.categoryId,
-            memberId: event.memberId,
-            transactionId: event.transactionId,
-            title: event.title,
-            desc: event.desc,
-            image: event.image);
+          categoryId: event.categoryId,
+          memberId: event.memberId,
+          title: event.title,
+          desc: event.desc,
+          image: event.image,
+        );
         CourseModel data = CourseModel.fromJson(json);
         if (data.result == true) {
           emit(AddCourseSuccess(course: data, message: data.message));

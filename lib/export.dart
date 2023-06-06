@@ -5,7 +5,7 @@ export 'package:online_learning_app/widgets/bottom_navigation_item.dart';
 export 'package:online_learning_app/screens/auth/forgot_password_screen.dart';
 export 'package:online_learning_app/screens/user/user_settings_screen.dart';
 export 'package:online_learning_app/screens/user/user_main_screen.dart';
-
+export 'package:online_learning_app/screens/user/detail/user_detail_course.dart';
 export 'package:online_learning_app/screens/admin/admin_home_screen.dart';
 export 'package:online_learning_app/screens/author/author_home_screen.dart';
 export 'package:online_learning_app/bloc/auth/login/login_bloc.dart';

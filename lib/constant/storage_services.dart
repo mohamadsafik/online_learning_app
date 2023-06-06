@@ -22,18 +22,25 @@ class StorageService {
     await _secureStorage.write(key: key, value: value);
   }
 
-  Future<void> saveData(
-      {required String idUser,
-      required String fullname,
-      required String role,
-      required String email}) async {
+  Future<void> saveData({
+    required String idUser,
+    required String fullname,
+    required String role,
+    required String email,
+    String gender = '',
+    String dateOfBirth = '',
+    String bio = '',
+  }) async {
     await storage.writeData(
         key: "user",
         value: jsonEncode({
           "user_id": idUser,
           "email": email,
           "name": fullname,
-          "role": role
+          "role": role,
+          "gender": gender,
+          "date_of_birth": dateOfBirth,
+          "short_bio": bio,
         }));
     writeData(key: "islogin", value: "Y");
   }
@@ -64,7 +71,6 @@ class StorageService {
 //READALL
   Future<Map<String, dynamic>> readAllData() async {
     var allData = await _secureStorage.readAll();
-
     return allData;
   }
 

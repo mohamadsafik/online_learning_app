@@ -25,7 +25,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           emit(RegisterError(message: data["message"]));
         }
       } catch (e) {
-        emit(RegisterError(message: "internal server error"));
+        emit(const RegisterError(message: "INTERNAL SERVER ERROR"));
       }
     });
   }

@@ -1,3 +1,6 @@
+import 'package:flutter/foundation.dart';
+import 'package:online_learning_app/bloc/course/category/category_bloc.dart';
+import 'package:online_learning_app/data/models/app/category_model.dart';
 import 'package:online_learning_app/export.dart';
 
 class AddCourseScreen extends StatefulWidget {
@@ -11,7 +14,6 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
   File? imageSelected;
   final TextEditingController categoryId = TextEditingController();
   final TextEditingController memberId = TextEditingController();
-  final TextEditingController transactionId = TextEditingController();
   final TextEditingController title = TextEditingController();
   final TextEditingController desc = TextEditingController();
   final TextEditingController image = TextEditingController();
@@ -89,86 +91,98 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                   ),
                   const SizedBox(height: 16),
                   Center(
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton2(
-                        isExpanded: true,
-                        hint: Row(
-                          children: [
-                            const Icon(
-                              Icons.account_circle_outlined,
-                              size: 20,
-                              color: kGreyColor,
-                            ),
-                            const SizedBox(
-                              width: 14,
-                            ),
-                            Expanded(
-                              child: Text(
-                                'Kategori',
-                                style: greyTextStyle.copyWith(
-                                  fontSize: 14,
-                                  color: kGreyColor,
-                                  fontWeight: regular,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ),
-                        items: category
-                            .map(
-                              (item) => DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(
-                                  item,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: regular,
-                                    color: kBlackColor,
+                    child: BlocBuilder<CategoryBloc, CategoryState>(
+                      builder: (context, state) {
+                        if (state is CategoryLoading) {
+                          return const CircularProgressIndicator();
+                        } else if (state is CategorySuccess) {
+                          final List<Data>? categories = state.category.data;
+                          return DropdownButtonHideUnderline(
+                            child: DropdownButton2(
+                              isExpanded: true,
+                              hint: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.account_circle_outlined,
+                                    size: 20,
+                                    color: kGreyColor,
                                   ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
+                                  const SizedBox(
+                                    width: 14,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      'Kategori',
+                                      style: greyTextStyle.copyWith(
+                                        fontSize: 14,
+                                        color: kGreyColor,
+                                        fontWeight: regular,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            )
-                            .toList(),
-                        value: selectedCategory,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedCategory = value as String;
-                            categoryValue = value;
-                          });
-                        },
-                        //
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        iconSize: 24,
-                        iconEnabledColor: kPrimaryColor,
-                        iconDisabledColor: kGreyColor,
-                        buttonHeight: 60,
-                        buttonWidth: double.infinity,
-                        buttonPadding:
-                            const EdgeInsets.only(left: 14, right: 14),
-                        buttonDecoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: kGreyColor,
-                          ),
-                          color: Colors.transparent,
-                        ),
-                        buttonElevation: 0,
-                        itemHeight: 50,
-                        itemPadding: const EdgeInsets.only(left: 14, right: 14),
-                        dropdownMaxHeight: 200,
-                        dropdownWidth: 290,
-                        dropdownPadding: null,
-                        dropdownDecoration: BoxDecoration(
-                          border: Border.all(color: kGreyColor),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        dropdownElevation: 0,
-                        scrollbarRadius: const Radius.circular(40),
-                        scrollbarThickness: 6,
-                        scrollbarAlwaysShow: true,
-                      ),
+                              items: categories
+                                  ?.map(
+                                    (item) => DropdownMenuItem<String>(
+                                      value: item.name,
+                                      child: Text(
+                                        item as String,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: regular,
+                                          color: kBlackColor,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                              value: selectedCategory,
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedCategory = value as String;
+                                  categoryValue = value;
+                                });
+                              },
+                              //
+                              icon: const Icon(Icons.keyboard_arrow_down),
+                              iconSize: 24,
+                              iconEnabledColor: kPrimaryColor,
+                              iconDisabledColor: kGreyColor,
+                              buttonHeight: 60,
+                              buttonWidth: double.infinity,
+                              buttonPadding: const EdgeInsets.only(left: 14, right: 14),
+                              buttonDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: kGreyColor,
+                                ),
+                                color: Colors.transparent,
+                              ),
+                              buttonElevation: 0,
+                              itemHeight: 50,
+                              itemPadding: const EdgeInsets.only(left: 14, right: 14),
+                              dropdownMaxHeight: 200,
+                              dropdownWidth: 290,
+                              dropdownPadding: null,
+                              dropdownDecoration: BoxDecoration(
+                                border: Border.all(color: kGreyColor),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              dropdownElevation: 0,
+                              scrollbarRadius: const Radius.circular(40),
+                              scrollbarThickness: 6,
+                              scrollbarAlwaysShow: true,
+                            ),
+                          );
+                        } else if (state is CategoryError) {
+                          return Text(state.message);
+                        } else {
+                          return const Text('no data');
+                        }
+                      },
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -186,8 +200,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                     },
                     // controller: widget.regisEmailC,
                     autocorrect: false,
-                    style: blackTextStyle.copyWith(
-                        fontSize: 14, fontWeight: regular),
+                    style: blackTextStyle.copyWith(fontSize: 14, fontWeight: regular),
                     cursorColor: kBlackColor,
                     decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
@@ -255,8 +268,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                             backgroundColor: kGreenColor,
                             content: Row(
                               children: [
-                                const Icon(Icons.beenhere_rounded,
-                                    color: Colors.white),
+                                const Icon(Icons.beenhere_rounded, color: Colors.white),
                                 const SizedBox(width: 12),
                                 Text(
                                   'Add Course succesful!',
@@ -278,8 +290,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                             backgroundColor: kRedColor,
                             content: Row(
                               children: [
-                                const Icon(Icons.beenhere_rounded,
-                                    color: Colors.white),
+                                const Icon(Icons.beenhere_rounded, color: Colors.white),
                                 const SizedBox(width: 12),
                                 Text(state.message),
                               ],
@@ -296,12 +307,12 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                           if (_formKey.currentState!.validate()) {
                             // If the form is valid, display a snackbar. In the real world,
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
+                              const SnackBar(
                                 behavior: SnackBarBehavior.floating,
                                 elevation: 0,
                                 backgroundColor: kLoadingColor,
                                 content: Row(
-                                  children: const [
+                                  children: [
                                     Text('Loading'),
                                     SizedBox(width: 12),
                                     SizedBox(
@@ -319,12 +330,13 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                             print(selectedCategory);
                             context.read<AddCourseBloc>().add(
                                   AddNewCourseEvent(
-                                      categoryId: '11',
-                                      desc: desc.text,
-                                      image: '11',
-                                      memberId: '11',
-                                      title: title.text,
-                                      transactionId: '11'),
+                                    categoryId: '11',
+                                    desc: desc.text,
+                                    image: '11',
+                                    memberId: '11',
+                                    title: title.text,
+                                    transactionId: '11',
+                                  ),
                                 );
                           }
                         },
@@ -347,6 +359,5 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
         ),
       ),
     );
-    ;
   }
 }

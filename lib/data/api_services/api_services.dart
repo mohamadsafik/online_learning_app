@@ -1,12 +1,9 @@
 import 'dart:convert';
-import 'package:crypto/crypto.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'package:online_learning_app/constant/env.dart';
 import 'package:online_learning_app/constant/storage_services.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
+import '../models/app/category_model.dart';
 import '../models/app/user_model.dart';
 
 class ApiServices {
@@ -42,12 +39,12 @@ class ApiServices {
   }
 
   Future register({
-    required String userName,
     required String email,
     required String password,
-    required String dateBirth,
-    required String gender,
     required String fullName,
+    String userName = '',
+    String dateBirth = '',
+    String gender = '',
   }) async {
     var body = {
       "username": userName,
@@ -55,18 +52,18 @@ class ApiServices {
       "password": password,
       "date_of_birth": dateBirth,
       "gender": gender,
-      "full_name": fullName
+      "full_name": fullName,
     };
     print(body);
-    return await _postData(relativeUrl: '/users', body: body);
+    return await _postData(relativeUrl: '/register', body: body);
   }
 
   Future login({
-    required String emailOrPassword,
+    required String emailOrUsername,
     required String password,
   }) async {
     Map<String, dynamic> body = {
-      "email_or_username": emailOrPassword,
+      "email_or_username": emailOrUsername,
       "password": password,
     };
     print(body);
@@ -76,7 +73,6 @@ class ApiServices {
   Future addCourse({
     required String categoryId,
     required String memberId,
-    required String transactionId,
     required String title,
     required String desc,
     required String image,
@@ -84,23 +80,44 @@ class ApiServices {
     String? user = await storage.readData('user');
     UserModel appUserModel = UserModel.deserialize(user!);
     Map<String, dynamic> body = {
-      'author_id': appUserModel.idUser,
+      'lecturer_id': appUserModel.idUser,
       'category_id': categoryId,
       'member_id': memberId,
-      'transaction_id': transactionId,
       'title': title,
       'description': desc,
-      'image': image
+      'image': image,
     };
     print(body);
     return await _postData(relativeUrl: '/course/add', body: body);
   }
-}
 
-//  'author_id' => $request->author_id,
-//                 'category_id' => $request->category_id,
-//                 'member_id' => $request->member_id,
-//                 'transaction_id' => $request->transaction_id,
-//                 'title' => $request->title,
-//                 'description' => $request->description,
-//                 'image' => $request->image,
+  Future<void> uploadImage(String imagePath, String relativeUrl) async {
+    // Create MultipartRequest
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse(relativeUrl), // Ganti dengan URL endpoint API Laravel Anda
+    );
+
+    request.files.add(await http.MultipartFile.fromPath('image', imagePath));
+
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      print('Image uploaded successfully');
+    } else {
+      print('upload image failed');
+    }
+  }
+
+  Future<List<CategoryModel>> fetchCategories() async {
+    final response = await _getData(relativeUrl: '/course/category'); // Ganti dengan URL endpoint API Laravel Anda
+
+    if (response.statusCode == 200) {
+      // Jika permintaan berhasil
+      return response;
+    } else {
+      // Jika permintaan gagal
+      throw Exception('Failed to fetch categories');
+    }
+  }
+}
