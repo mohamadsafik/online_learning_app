@@ -9,14 +9,12 @@ class AuthorHomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          InkWell(
-            onTap: () => Navigator.of(context).pushNamed('/add-course'),
-            child: const Icon(Icons.add),
-          ),
-          // IconButton(
-          //   onPressed: () {},
-          //   icon: const Icon(Icons.add),
-          // )
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed('/add-course');
+            },
+            icon: const Icon(Icons.add),
+          )
         ],
         elevation: 0,
         title: Padding(

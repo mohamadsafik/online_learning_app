@@ -8,18 +8,16 @@ abstract class AddCourseEvent extends Equatable {
 }
 
 class AddNewCourseEvent extends AddCourseEvent {
-  final String categoryId;
-  final String memberId;
-  final String transactionId;
+  final int? categoryId;
   final String title;
   final String desc;
-  final String image;
+  final String? image;
+  final String memberId;
   const AddNewCourseEvent({
     required this.categoryId,
-    required this.memberId,
-    required this.transactionId,
     required this.title,
     required this.desc,
-    required this.image,
+    this.image = '',
+    this.memberId = '',
   });
 }

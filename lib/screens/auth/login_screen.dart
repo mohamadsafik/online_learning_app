@@ -206,7 +206,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (state.user.data!.role == 'ADMIN') {
                       Navigator.pushNamedAndRemoveUntil(context, '/admin-main', (route) => false);
                     } else if (state.user.data!.role == 'LECTURER') {
-                      Navigator.pushNamedAndRemoveUntil(context, '/author-main', (route) => false);
+                      Navigator.pushNamedAndRemoveUntil(context, '/lecturer-main', (route) => false);
                     } else {
                       Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
                     }

@@ -12,13 +12,13 @@ class CategoryInitial extends CategoryState {}
 class CategoryLoading extends CategoryState {}
 
 class CategorySuccess extends CategoryState {
-  final CategoryModel category;
+  final CategoryModel categories;
   final String message;
 
-  const CategorySuccess({required this.category, this.message = ''});
+  const CategorySuccess({required this.categories, this.message = ''});
 
   @override
-  List<Object> get props => [category];
+  List<Object> get props => [categories];
 }
 
 class CategoryError extends CategoryState {

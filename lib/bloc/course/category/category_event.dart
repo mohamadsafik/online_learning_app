@@ -8,6 +8,5 @@ abstract class CategoryEvent extends Equatable {
 }
 
 class GetCategoryEvent extends CategoryEvent {
-  final String name;
-  const GetCategoryEvent({required this.name});
+  const GetCategoryEvent();
 }

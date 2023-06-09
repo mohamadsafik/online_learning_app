@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 const Duration(
                   seconds: 3,
                 ), () {
-              Navigator.pushNamedAndRemoveUntil(context, '/author-main', (route) => false);
+              Navigator.pushNamedAndRemoveUntil(context, '/lecturer-main', (route) => false);
             });
           } else {
             Timer(

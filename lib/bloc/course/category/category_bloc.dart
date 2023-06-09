@@ -12,10 +12,10 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     on<GetCategoryEvent>((event, emit) async {
       emit(CategoryLoading());
       try {
-        var category = await ApiServices().fetchCategories();
-        CategoryModel data = CategoryModel.fromJson(category as Map<String, dynamic>);
+        var category = await ApiServices().getData(relativeUrl: '/categories');
+        CategoryModel data = CategoryModel.fromJson(category);
         if (data.result == true) {
-          emit(CategorySuccess(category: data));
+          emit(CategorySuccess(categories: data));
         } else {
           emit(CategoryError(message: data.message.toString()));
         }

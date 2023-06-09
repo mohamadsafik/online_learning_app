@@ -1,4 +1,7 @@
-import 'package:online_learning_app/screens/author/add_video_screen.dart';
+import 'package:online_learning_app/bloc/course/category/category_bloc.dart';
+import 'package:online_learning_app/bloc/course/get_course_by_id/get_course_by_id_bloc.dart';
+// import 'package:online_learning_app/screens/author/add_video_screen.dart';
+import 'package:online_learning_app/screens/lecturer/lecturer_home_screen.dart';
 import 'package:online_learning_app/screens/user/detail/user_detail_course.dart';
 import 'package:online_learning_app/widgets/persistent.dart';
 import 'export.dart';
@@ -28,6 +31,12 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => PageCubit(),
         ),
+        BlocProvider(
+          create: (context) => CategoryBloc(),
+        ),
+        BlocProvider(
+          create: (context) => GetCourseByIdBloc(),
+        ),
       ],
       child: const App(),
     );
@@ -54,8 +63,9 @@ class App extends StatelessWidget {
         '/settings': (context) => SettingsScreen(arguments: const {}),
         '/profil': (context) => const ProfileScreen(),
         '/detailCourse': (context) => const DetailCourseScreen(),
-        //Author Route
+        //Lecturer Route
         '/author-main': (context) => const AuthorHomeScreen(arguments: {}),
+        '/lecturer-main': (context) => const LecturerHomeScreen(arguments: {}),
         '/add-course': (context) => const AddCourseScreen(),
         //Admin Route
         '/admin-main': (context) => const AdminHomeScreen(arguments: {}),

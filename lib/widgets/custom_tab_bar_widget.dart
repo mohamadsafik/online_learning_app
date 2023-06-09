@@ -34,8 +34,7 @@ class CustomTabBar extends StatefulWidget {
   CustomTabBarState createState() => CustomTabBarState();
 }
 
-class CustomTabBarState extends State<CustomTabBar>
-    with SingleTickerProviderStateMixin {
+class CustomTabBarState extends State<CustomTabBar> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override

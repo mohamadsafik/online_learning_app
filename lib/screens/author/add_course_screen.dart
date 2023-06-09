@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:online_learning_app/bloc/course/category/category_bloc.dart';
 import 'package:online_learning_app/data/models/app/category_model.dart';
 import 'package:online_learning_app/export.dart';
@@ -19,18 +19,80 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
   final TextEditingController image = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final List<String> category = [
-    'Web Development',
-    'Mobile Development',
-    'IOT Development',
-    'Desktop Development',
-    'Artificial Intelligent',
-    'UI/UX Design',
-    'Lainnya...',
+    '',
   ];
-  String? selectedCategory;
-  String categoryValue = '';
+  int? selectedCategory;
+  late int selectedCategoryId;
+  late int categoryValue;
+  String? imagePath;
+  bool isButtonDisabled = false;
+
   @override
   Widget build(BuildContext context) {
+    void addNewCourse() {
+      // Nonaktifkan tombol
+      setState(() {
+        isButtonDisabled = true;
+      });
+
+      // Lakukan tindakan yang diperlukan
+      if (_formKey.currentState!.validate()) {
+        // If the form is valid, display a snackbar. In the real world,
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            behavior: SnackBarBehavior.floating,
+            elevation: 0,
+            backgroundColor: kLoadingColor,
+            content: Row(
+              children: [
+                Text('Loading'),
+                SizedBox(width: 12),
+                SizedBox(
+                  height: 10,
+                  width: 10,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1,
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+        //Store the data
+        print(selectedCategory);
+        context.read<AddCourseBloc>().add(
+              AddNewCourseEvent(
+                categoryId: selectedCategory,
+                desc: desc.text,
+                image: imagePath,
+                // memberId: 0,`
+                title: title.text,
+              ),
+            );
+      }
+
+      // Aktifkan kembali tombol setelah selesai
+      setState(() {
+        isButtonDisabled = false;
+      });
+    }
+
+    Future<void> pickImageFromGallery() async {
+      final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (pickedImage != null) {
+        setState(() {
+          imagePath = pickedImage.path;
+        });
+        print(pickedImage.path);
+      }
+    }
+
+    Future<void> removeImage() async {
+      setState(() {
+        imagePath = null;
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -92,95 +154,99 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                   const SizedBox(height: 16),
                   Center(
                     child: BlocBuilder<CategoryBloc, CategoryState>(
+                      bloc: CategoryBloc()..add(const GetCategoryEvent()),
                       builder: (context, state) {
-                        if (state is CategoryLoading) {
-                          return const CircularProgressIndicator();
-                        } else if (state is CategorySuccess) {
-                          final List<Data>? categories = state.category.data;
+                        if (state is CategorySuccess) {
+                          final List<Data>? categories = state.categories.data;
+                          print(categories);
                           return DropdownButtonHideUnderline(
-                            child: DropdownButton2(
-                              isExpanded: true,
-                              hint: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.account_circle_outlined,
-                                    size: 20,
-                                    color: kGreyColor,
-                                  ),
-                                  const SizedBox(
-                                    width: 14,
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      'Kategori',
-                                      style: greyTextStyle.copyWith(
-                                        fontSize: 14,
-                                        color: kGreyColor,
-                                        fontWeight: regular,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton2(
+                                isExpanded: true,
+                                hint: Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.account_circle_outlined,
+                                      size: 20,
+                                      color: kGreyColor,
                                     ),
-                                  ),
-                                ],
-                              ),
-                              items: categories
-                                  ?.map(
-                                    (item) => DropdownMenuItem<String>(
-                                      value: item.name,
+                                    const SizedBox(
+                                      width: 14,
+                                    ),
+                                    Expanded(
                                       child: Text(
-                                        item as String,
-                                        style: TextStyle(
+                                        'Kategori',
+                                        style: greyTextStyle.copyWith(
                                           fontSize: 14,
+                                          color: kGreyColor,
                                           fontWeight: regular,
-                                          color: kBlackColor,
                                         ),
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
-                                  )
-                                  .toList(),
-                              value: selectedCategory,
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedCategory = value as String;
-                                  categoryValue = value;
-                                });
-                              },
-                              //
-                              icon: const Icon(Icons.keyboard_arrow_down),
-                              iconSize: 24,
-                              iconEnabledColor: kPrimaryColor,
-                              iconDisabledColor: kGreyColor,
-                              buttonHeight: 60,
-                              buttonWidth: double.infinity,
-                              buttonPadding: const EdgeInsets.only(left: 14, right: 14),
-                              buttonDecoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  color: kGreyColor,
+                                  ],
                                 ),
-                                color: Colors.transparent,
+                                items: categories!.isNotEmpty
+                                    ? categories
+                                        .map<DropdownMenuItem<int>>(
+                                          (item) => DropdownMenuItem<int>(
+                                            value: item.id,
+                                            child: Text(
+                                              item.name.toString(),
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: regular,
+                                                color: kBlackColor,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                        )
+                                        .toList()
+                                    : [],
+                                value: selectedCategory,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedCategory = value as int?;
+                                    categoryValue = value as int;
+                                  });
+                                },
+                                //
+                                icon: const Icon(Icons.keyboard_arrow_down),
+                                iconSize: 24,
+                                iconEnabledColor: kPrimaryColor,
+                                iconDisabledColor: kGreyColor,
+                                buttonHeight: 60,
+                                buttonWidth: double.infinity,
+                                buttonPadding: const EdgeInsets.only(left: 14, right: 14),
+                                buttonDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(
+                                    color: kGreyColor,
+                                  ),
+                                  color: Colors.transparent,
+                                ),
+                                buttonElevation: 0,
+                                itemHeight: 50,
+                                itemPadding: const EdgeInsets.only(left: 14, right: 14),
+                                dropdownMaxHeight: 200,
+                                dropdownWidth: 290,
+                                dropdownPadding: null,
+                                dropdownDecoration: BoxDecoration(
+                                  border: Border.all(color: kGreyColor),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                dropdownElevation: 0,
+                                scrollbarRadius: const Radius.circular(40),
+                                scrollbarThickness: 6,
+                                scrollbarAlwaysShow: true,
                               ),
-                              buttonElevation: 0,
-                              itemHeight: 50,
-                              itemPadding: const EdgeInsets.only(left: 14, right: 14),
-                              dropdownMaxHeight: 200,
-                              dropdownWidth: 290,
-                              dropdownPadding: null,
-                              dropdownDecoration: BoxDecoration(
-                                border: Border.all(color: kGreyColor),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              dropdownElevation: 0,
-                              scrollbarRadius: const Radius.circular(40),
-                              scrollbarThickness: 6,
-                              scrollbarAlwaysShow: true,
                             ),
                           );
                         } else if (state is CategoryError) {
                           return Text(state.message);
                         } else {
-                          return const Text('no data');
+                          return const Text('');
                         }
                       },
                     ),
@@ -229,32 +295,32 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  Container(
-                    height: 100,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: kGreyColor,
-                        )),
-                    child: IconButton(
-                      tooltip: 'Esese',
-                      color: kGreyColor,
-                      onPressed: () {},
-                      icon: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Add thumbnail',
-                            style: greyTextStyle.copyWith(
-                              fontSize: 12,
-                              fontWeight: regular,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          const Icon(Icons.camera_alt_outlined),
-                        ],
-                      ),
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        imagePath != null
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  IconButton(onPressed: removeImage, icon: const Icon(Icons.delete)),
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: Image.file(
+                                      File(imagePath!),
+                                      width: 500,
+                                      height: 200,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : const Text('ukuran 200x200'),
+                        const SizedBox(height: 12),
+                        ElevatedButton(
+                          onPressed: pickImageFromGallery,
+                          child: const Text('Pilih gambar'),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -271,7 +337,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                                 const Icon(Icons.beenhere_rounded, color: Colors.white),
                                 const SizedBox(width: 12),
                                 Text(
-                                  'Add Course succesful!',
+                                  'Add Course succesfull!',
                                   style: whiteTextStyle.copyWith(
                                     fontSize: 14,
                                     fontWeight: bold,
@@ -303,50 +369,14 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                     },
                     builder: (context, state) {
                       return CustomButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            // If the form is valid, display a snackbar. In the real world,
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                behavior: SnackBarBehavior.floating,
-                                elevation: 0,
-                                backgroundColor: kLoadingColor,
-                                content: Row(
-                                  children: [
-                                    Text('Loading'),
-                                    SizedBox(width: 12),
-                                    SizedBox(
-                                      height: 10,
-                                      width: 10,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 1,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            );
-                            //Store the data
-                            print(selectedCategory);
-                            context.read<AddCourseBloc>().add(
-                                  AddNewCourseEvent(
-                                    categoryId: '11',
-                                    desc: desc.text,
-                                    image: '11',
-                                    memberId: '11',
-                                    title: title.text,
-                                    transactionId: '11',
-                                  ),
-                                );
-                          }
-                        },
+                        onPressed: addNewCourse,
                         title: 'Add Course Now',
                         style: whiteTextStyle.copyWith(
                           fontSize: 14,
                           fontWeight: semibold,
                         ),
                         height: 55,
-                        backgroundColor: kPrimaryColor,
+                        backgroundColor: isButtonDisabled ? kGreyColor : kPrimaryColor,
                         width: double.infinity,
                         borderRadius: 20,
                       );
