@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:online_learning_app/constant/env.dart';
-import 'package:online_learning_app/constant/storage_services.dart';
+import 'package:online_learning_app/data/helper.dart';
 
 import '../../export.dart';
 import '../models/app/user_model.dart';
@@ -42,6 +42,10 @@ class ApiServices {
     return await getData(relativeUrl: '/course/$id');
   }
 
+  Future getUser() async {
+    return await getData(relativeUrl: '/user');
+  }
+
   Future register({
     required String email,
     required String password,
@@ -60,6 +64,39 @@ class ApiServices {
     };
     print(body);
     return await _postData(relativeUrl: '/register', body: body);
+  }
+
+  Future registerLecturer({
+    required String email,
+    required String password,
+    required String fullName,
+    String userName = '',
+    String dateBirth = '',
+    String gender = '',
+    String highestEducation = '',
+    String teachingExperience = '',
+    String educationHistory = '',
+    String contactAddress = '',
+    String shortBio = '',
+    String imageUrl = '',
+  }) async {
+    var body = {
+      "username": userName,
+      "email": email,
+      "password": password,
+      "date_of_birth": dateBirth,
+      "gender": gender,
+      "full_name": fullName,
+      "id_lecturer": "LEC${HelperFunction().generateRandomNumber(5)}",
+      "highest_education": highestEducation,
+      "teaching_experience": teachingExperience,
+      "education_history": educationHistory,
+      "contact_address": contactAddress,
+      "short_bio": shortBio,
+      "imageUrl": imageUrl,
+    };
+    print(body);
+    return await _postData(relativeUrl: '/register/lecturer', body: body);
   }
 
   Future login({
@@ -82,7 +119,7 @@ class ApiServices {
     required String memberId,
   }) async {
     String? user = await storage.readData('user');
-    UserModel appUserModel = UserModel.deserialize(user!);
+    UserModelStorage appUserModel = UserModelStorage.deserialize(user!);
     Map<String, dynamic> body = {
       'author_id': appUserModel.idUser,
       'category_id': categoryId,
@@ -105,7 +142,7 @@ class ApiServices {
       // Mengonversi gambar ke Base64
 
       // Mengirim permintaan HTTP menggunakan package http
-      final url = Uri.parse('${AppConstants().baseUrl}course/add'); // Ganti dengan URL endpoint API Anda
+      final url = Uri.parse('${AppConstants().baseUrl}/course/add'); // Ganti dengan URL endpoint API Anda
       final request = http.MultipartRequest('POST', url);
       request.fields['image'] = base64;
       request.files.add(await http.MultipartFile.fromPath('images/courses', file.path));

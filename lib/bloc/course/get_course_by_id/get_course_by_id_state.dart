@@ -13,7 +13,7 @@ class GetCourseByIdLoading extends GetCourseByIdState {}
 
 class GetCourseByIdSuccess extends GetCourseByIdState {
   final CourseModel course;
-  GetCourseByIdSuccess({required this.course});
+  const GetCourseByIdSuccess({required this.course});
 }
 
 class GetCourseByIdError extends GetCourseByIdState {

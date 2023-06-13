@@ -18,7 +18,7 @@ class CheckLoginLoading extends CheckLoginState {
 }
 
 class CheckLoginSuccess extends CheckLoginState {
-  final UserModel data;
+  final UserModelStorage data;
   const CheckLoginSuccess({required this.data});
 }
 

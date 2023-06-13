@@ -1,3 +1,5 @@
+import 'package:online_learning_app/bloc/user/get_user_bloc.dart';
+
 import '../../export.dart';
 
 class AllDataScreen extends StatelessWidget {
@@ -11,132 +13,37 @@ class AllDataScreen extends StatelessWidget {
         title: const Text('All User Data'),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 12),
-        child: BlocBuilder<CheckLoginBloc, CheckLoginState>(
+        padding: const EdgeInsets.all(20),
+        child: BlocBuilder<GetUserBloc, GetUserState>(
+          bloc: context.read<GetUserBloc>()..add(GetAllUserEvent()),
           builder: (context, state) {
-            if (state is CheckLoginSuccess) {
-              return const StreamAllUser();
-            } else {
-              return BlocBuilder<LoginBloc, LoginState>(
-                builder: (context, state) {
-                  return const StreamAllUser();
-                },
-              );
-            }
-          },
-        ),
-      ),
-    );
-  }
-}
-
-class StreamAllUser extends StatelessWidget {
-  const StreamAllUser({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      // stream: UserService().getAllUser(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return const Text('Something went wrong');
-        }
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: Text("Loading"));
-        }
-
-        return ListView(
-          children: snapshot.data!.docs
-              .map(
-                (DocumentSnapshot document) {
-                  Map<String, dynamic> data =
-                      document.data()! as Map<String, dynamic>;
+            if (state is GetUserSuccess) {
+              var dataLength = state.user.data!.length;
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: dataLength,
+                itemBuilder: (context, index) {
+                  var data = state.user.data![index];
+                  print(data);
                   return ListTile(
-                    title: Text(data['email']),
-                    subtitle: Text(data['role']),
+                    leading: CircleAvatar(child: Text("${index + 1}")),
+                    title: Text(data.name!),
+                    subtitle: Text(data.email!),
                     trailing: IconButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text(
-                                ('Delete User'),
-                                style: blackTextStyle.copyWith(
-                                  fontSize: 18,
-                                  fontWeight: bold,
-                                ),
-                              ),
-                              content: Text(
-                                'Are you sure want to delete ${data['email']}?',
-                                style: greyTextStyle.copyWith(
-                                  fontSize: 14,
-                                  fontWeight: regular,
-                                ),
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text(
-                                    'Cancel',
-                                    style: blackTextStyle.copyWith(
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        duration: const Duration(seconds: 3),
-                                        behavior: SnackBarBehavior.floating,
-                                        elevation: 0,
-                                        backgroundColor: kGreenColor,
-                                        content: Row(
-                                          children: [
-                                            const Icon(
-                                              Icons.beenhere_rounded,
-                                              color: Colors.white,
-                                            ),
-                                            const SizedBox(width: 12),
-                                            Text(
-                                              'Delete Success',
-                                              style: whiteTextStyle.copyWith(
-                                                fontSize: 14,
-                                                fontWeight: bold,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  child: Text(
-                                    'Delete Now',
-                                    style: blackTextStyle.copyWith(
-                                      color: Colors.green,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
+                      onPressed: () {},
                       icon: const Icon(Icons.delete),
                     ),
                   );
                 },
-              )
-              .toList()
-              .cast(),
-        );
-      },
+              );
+            } else if (state is GetUserError) {
+              return const Center(child: Text('Error'));
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
+      ),
     );
   }
 }

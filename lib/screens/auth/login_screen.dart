@@ -1,11 +1,9 @@
-import 'package:online_learning_app/constant/storage_services.dart';
 import 'package:online_learning_app/export.dart';
 
 class LoginScreen extends StatefulWidget {
   TextEditingController loginEmailC = TextEditingController();
   TextEditingController loginPasswordC = TextEditingController();
 
-  bool validated = false;
   final _formKey = GlobalKey<FormState>();
   bool _obscureText = true;
 
@@ -73,15 +71,15 @@ class _LoginScreenState extends State<LoginScreen> {
               TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 textInputAction: TextInputAction.next,
-                validator: (val) {
-                  widget.validated = false;
-                  if (val == null || val.isEmpty) {
-                    return "Email or username is required";
-                  } else {
-                    widget.validated = true;
-                  }
-                  return null;
-                },
+                // validator: (val) {
+                //   widget.validated = false;
+                //   if (val == null || val.isEmpty) {
+                //     return "Email or username is required";
+                //   } else {
+                //     widget.validated = true;
+                //   }
+                //   return null;
+                // },
                 controller: widget.loginEmailC,
                 autocorrect: false,
                 style: blackTextStyle.copyWith(
@@ -118,14 +116,14 @@ class _LoginScreenState extends State<LoginScreen> {
               TextFormField(
                 controller: widget.loginPasswordC,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (val) {
-                  if (val == null || val.isEmpty) {
-                    return "Password is required";
-                  } else if (val.length <= 6) {
-                    return "Please enter a password at least 6 characters!";
-                  }
-                  return null;
-                },
+                // validator: (val) {
+                //   if (val == null || val.isEmpty) {
+                //     return "Password is required";
+                //   } else if (val.length <= 6) {
+                //     return "Please enter a password at least 6 characters!";
+                //   }
+                //   return null;
+                // },
                 scrollPadding: const EdgeInsets.only(bottom: 165.0),
                 autocorrect: false,
                 obscureText: widget._obscureText,

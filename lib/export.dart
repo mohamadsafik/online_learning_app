@@ -8,8 +8,13 @@ export 'package:online_learning_app/screens/user/user_main_screen.dart';
 export 'package:online_learning_app/screens/user/detail/user_detail_course.dart';
 export 'package:online_learning_app/screens/admin/admin_home_screen.dart';
 export 'package:online_learning_app/screens/author/author_home_screen.dart';
+export 'package:online_learning_app/constant/storage_services.dart';
 export 'package:online_learning_app/bloc/auth/login/login_bloc.dart';
-
+export 'package:online_learning_app/bloc/course/category/category_bloc.dart';
+export 'package:online_learning_app/bloc/course/get_course_by_id/get_course_by_id_bloc.dart';
+export 'package:online_learning_app/screens/admin/add_lecturer_screen.dart';
+export 'package:online_learning_app/screens/lecturer/lecturer_home_screen.dart';
+export 'package:online_learning_app/widgets/persistent.dart';
 export 'package:online_learning_app/bloc/course/add_course/add_course_bloc.dart';
 
 export 'dart:io';

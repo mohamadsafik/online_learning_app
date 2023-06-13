@@ -24,7 +24,7 @@ class _AddAuthorScreenState extends State<AddAuthorScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: const Text('Add Author'),
+        title: const Text('Add Lecturer'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(25),
@@ -93,8 +93,7 @@ class _AddAuthorScreenState extends State<AddAuthorScreen> {
                     },
                     controller: widget.regisEmailC,
                     autocorrect: false,
-                    style: blackTextStyle.copyWith(
-                        fontSize: 14, fontWeight: regular),
+                    style: blackTextStyle.copyWith(fontSize: 14, fontWeight: regular),
                     cursorColor: kBlackColor,
                     decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
@@ -168,9 +167,7 @@ class _AddAuthorScreenState extends State<AddAuthorScreen> {
                       ),
                       suffixIcon: IconButton(
                         onPressed: _showPassword,
-                        icon: widget._obscureText == true
-                            ? const Icon(Icons.visibility_off, size: 20)
-                            : const Icon(Icons.visibility, size: 20),
+                        icon: widget._obscureText == true ? const Icon(Icons.visibility_off, size: 20) : const Icon(Icons.visibility, size: 20),
                         color: kPrimaryColor,
                       ),
                     ),
@@ -186,8 +183,7 @@ class _AddAuthorScreenState extends State<AddAuthorScreen> {
                             backgroundColor: kGreenColor,
                             content: Row(
                               children: [
-                                const Icon(Icons.beenhere_rounded,
-                                    color: Colors.white),
+                                const Icon(Icons.beenhere_rounded, color: Colors.white),
                                 const SizedBox(width: 12),
                                 Text(
                                   'Register succesful!',
@@ -209,8 +205,7 @@ class _AddAuthorScreenState extends State<AddAuthorScreen> {
                             backgroundColor: kRedColor,
                             content: Row(
                               children: [
-                                const Icon(Icons.beenhere_rounded,
-                                    color: Colors.white),
+                                const Icon(Icons.beenhere_rounded, color: Colors.white),
                                 const SizedBox(width: 12),
                                 Text(state.message),
                               ],
@@ -238,8 +233,7 @@ class _AddAuthorScreenState extends State<AddAuthorScreen> {
                                     SizedBox(
                                       height: 10,
                                       width: 10,
-                                      child: CircularProgressIndicator(
-                                          strokeWidth: 1),
+                                      child: CircularProgressIndicator(strokeWidth: 1),
                                     )
                                   ],
                                 ),

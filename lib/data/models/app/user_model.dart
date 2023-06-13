@@ -1,20 +1,20 @@
 import 'dart:convert';
 
-class UserModel {
+class UserModelStorage {
   final String idUser;
   final String name;
   final String email;
   final String role;
 
-  UserModel({
+  UserModelStorage({
     required this.idUser,
     required this.name,
     required this.email,
     required this.role,
   });
-  factory UserModel.deserialize(String jsonString) {
+  factory UserModelStorage.deserialize(String jsonString) {
     Map<String, dynamic> json = jsonDecode(jsonString);
-    return UserModel(
+    return UserModelStorage(
       email: json['email'],
       idUser: json['user_id'],
       name: json['name'],

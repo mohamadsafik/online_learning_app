@@ -13,7 +13,7 @@ class CheckLoginBloc extends Bloc<CheckLoginEvent, CheckLoginState> {
         emit(CheckLoginLoading());
         String? user = await storage.readData('user');
         if (user != null) {
-          emit(CheckLoginSuccess(data: UserModel.deserialize(user)));
+          emit(CheckLoginSuccess(data: UserModelStorage.deserialize(user)));
         } else {
           emit(CheckLoginError(message: ""));
         }

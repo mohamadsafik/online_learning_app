@@ -1,9 +1,5 @@
-import 'package:online_learning_app/bloc/course/category/category_bloc.dart';
-import 'package:online_learning_app/bloc/course/get_course_by_id/get_course_by_id_bloc.dart';
-// import 'package:online_learning_app/screens/author/add_video_screen.dart';
-import 'package:online_learning_app/screens/lecturer/lecturer_home_screen.dart';
-import 'package:online_learning_app/screens/user/detail/user_detail_course.dart';
-import 'package:online_learning_app/widgets/persistent.dart';
+import 'package:online_learning_app/bloc/user/get_user_bloc.dart';
+
 import 'export.dart';
 
 class MyApp extends StatelessWidget {
@@ -37,6 +33,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => GetCourseByIdBloc(),
         ),
+        BlocProvider(
+          create: (context) => GetUserBloc(),
+        ),
       ],
       child: const App(),
     );
@@ -51,9 +50,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(),
       debugShowCheckedModeBanner: false,
-      // home: BottomNavBar(
-      //   arguments: {},
-      // ),
+      // home: GaweAnyar(),
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),
@@ -62,14 +59,14 @@ class App extends StatelessWidget {
         '/main': (context) => const BottomNavBar(arguments: {}),
         '/settings': (context) => SettingsScreen(arguments: const {}),
         '/profil': (context) => const ProfileScreen(),
-        '/detailCourse': (context) => const DetailCourseScreen(),
+        '/detail-course': (context) => const DetailCourseScreen(),
         //Lecturer Route
         '/author-main': (context) => const AuthorHomeScreen(arguments: {}),
         '/lecturer-main': (context) => const LecturerHomeScreen(arguments: {}),
         '/add-course': (context) => const AddCourseScreen(),
         //Admin Route
+        '/add-lecturer': (context) => const AddLecturerScreen(),
         '/admin-main': (context) => const AdminHomeScreen(arguments: {}),
-        '/add-author': (context) => AddAuthorScreen(),
         '/all-data': (context) => const AllDataScreen(),
       },
     );

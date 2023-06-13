@@ -22,7 +22,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           emit(LoginError(message: data["message"]));
         }
       } catch (e) {
-        emit(const LoginError(message: 'INTERNAL SERVER ERROR'));
+        emit(LoginError(message: e.toString()));
       }
     });
   }
