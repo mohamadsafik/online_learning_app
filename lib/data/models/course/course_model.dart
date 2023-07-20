@@ -6,16 +6,16 @@ class CourseModel {
 
   CourseModel({bool? result, String? message, List<Data>? data, String? error}) {
     if (result != null) {
-      this._result = result;
+      _result = result;
     }
     if (message != null) {
-      this._message = message;
+      _message = message;
     }
     if (data != null) {
-      this._data = data;
+      _data = data;
     }
     if (error != null) {
-      this._error = error;
+      _error = error;
     }
   }
 
@@ -29,8 +29,8 @@ class CourseModel {
   set error(String? error) => _error = error;
 
   CourseModel.fromJson(Map<String, dynamic> json) {
-    _result = json['result'];
-    _message = json['message'];
+    _result = json['result'] as bool;
+    _message = json['message'] as String;
     if (json['data'] != null) {
       _data = <Data>[];
       json['data'].forEach((v) {
@@ -42,12 +42,12 @@ class CourseModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['result'] = this._result;
-    data['message'] = this._message;
-    if (this._data != null) {
-      data['data'] = this._data!.map((v) => v.toJson()).toList();
+    data['result'] = _result;
+    data['message'] = _message;
+    if (_data != null) {
+      data['data'] = _data!.map((v) => v.toJson()).toList();
     }
-    data['error'] = this._error;
+    data['error'] = _error;
     return data;
   }
 }
@@ -66,34 +66,34 @@ class Data {
 
   Data({int? id, int? authorId, int? categoryId, String? memberId, String? title, String? description, String? image, String? deletedAt, String? createdAt, String? updatedAt}) {
     if (id != null) {
-      this._id = id;
+      _id = id;
     }
     if (authorId != null) {
-      this._authorId = authorId;
+      _authorId = authorId;
     }
     if (categoryId != null) {
-      this._categoryId = categoryId;
+      _categoryId = categoryId;
     }
     if (memberId != null) {
-      this._memberId = memberId;
+      _memberId = memberId;
     }
     if (title != null) {
-      this._title = title;
+      _title = title;
     }
     if (description != null) {
-      this._description = description;
+      _description = description;
     }
     if (image != null) {
-      this._image = image;
+      _image = image;
     }
     if (deletedAt != null) {
-      this._deletedAt = deletedAt;
+      _deletedAt = deletedAt;
     }
     if (createdAt != null) {
-      this._createdAt = createdAt;
+      _createdAt = createdAt;
     }
     if (updatedAt != null) {
-      this._updatedAt = updatedAt;
+      _updatedAt = updatedAt;
     }
   }
 
@@ -133,16 +133,16 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this._id;
-    data['author_id'] = this._authorId;
-    data['category_id'] = this._categoryId;
-    data['member_id'] = this._memberId;
-    data['title'] = this._title;
-    data['description'] = this._description;
-    data['image'] = this._image;
-    data['deleted_at'] = this._deletedAt;
-    data['created_at'] = this._createdAt;
-    data['updated_at'] = this._updatedAt;
+    data['id'] = _id;
+    data['author_id'] = _authorId;
+    data['category_id'] = _categoryId;
+    data['member_id'] = _memberId;
+    data['title'] = _title;
+    data['description'] = _description;
+    data['image'] = _image;
+    data['deleted_at'] = _deletedAt;
+    data['created_at'] = _createdAt;
+    data['updated_at'] = _updatedAt;
     return data;
   }
 }

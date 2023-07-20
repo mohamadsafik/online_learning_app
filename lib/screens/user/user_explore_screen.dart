@@ -1,4 +1,7 @@
+import 'package:online_learning_app/bloc/course/search_course/search_course_bloc.dart';
 import 'package:online_learning_app/export.dart';
+
+import '../../bloc/course/get_course/get_course_bloc.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({super.key, required Map<String, String> arguments});
@@ -8,8 +11,20 @@ class ExploreScreen extends StatefulWidget {
 }
 
 class _ExploreScreenState extends State<ExploreScreen> {
+  String defaultImage =
+      'https://images.unsplash.com/photo-1616587894289-86480e533129?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHZpZGVvJTIwbGVhcm5pbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60';
+
   @override
   Widget build(BuildContext context) {
+    bool buttonSelected = false;
+    TextEditingController searchController = TextEditingController();
+    final course = context.read<GetCourseBloc>()..add(GetAllCourseEvent());
+    selectedButtonCategory() {
+      setState(() {
+        buttonSelected = !buttonSelected;
+      });
+    }
+
     return Scaffold(
       body: SafeArea(
         child: ListView(
@@ -30,25 +45,19 @@ class _ExploreScreenState extends State<ExploreScreen> {
             ),
             const SizedBox(height: 20),
             TextFormField(
+              controller: searchController,
+              onChanged: (value) {
+                value = searchController.text;
+                if (searchController.text == "" && searchController.text.isEmpty) {
+                  course;
+                } else {
+                  context.read<SearchCourseBloc>().add(SearchCourseByQuery(query: value));
+                }
+              },
               autovalidateMode: AutovalidateMode.onUserInteraction,
               textInputAction: TextInputAction.next,
-              // validator: (val) {
-              // widget.validated = false;
-              // if (val == null || val.isEmpty) {
-              //   return "Email is required";
-              // } else if (!val.toString().contains('@gmail')) {
-              //   return 'Enter valid Email';
-              // } else {
-              //   widget.validated = true;
-              // }
-              // return null;
-              // },
-              // controller: widget.loginEmailC,
               autocorrect: false,
-              style: blackTextStyle.copyWith(
-                fontSize: 14,
-                fontWeight: regular,
-              ),
+              style: blackTextStyle.copyWith(fontSize: 14, fontWeight: regular),
               cursorColor: kBlackColor,
               decoration: InputDecoration(
                 focusedBorder: OutlineInputBorder(
@@ -76,206 +85,164 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 24),
-            Text(
-              'Kategori',
-              style: blackTextStyle.copyWith(
-                fontSize: 16,
-                fontWeight: semibold,
-              ),
-            ),
-            const SizedBox(height: 16),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 16),
-                      width: 100,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 1, color: kPrimaryColor),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Center(
-                          child: Text(
-                        'Web Dev',
-                        style: orangeTextStyle.copyWith(
-                          fontSize: 12,
-                          fontWeight: regular,
-                        ),
-                      )),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 16),
-                      width: 100,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        color: kPrimaryColor,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Mobile Dev',
-                          style: whiteTextStyle.copyWith(
-                            fontSize: 12,
-                            fontWeight: bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
             const SizedBox(height: 32),
-            SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(
+            BlocBuilder<SearchCourseBloc, SearchCourseState>(
+              builder: (context, state) {
+                if (state is SearchCourseLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (state is SearchCourseError) {
+                  return Center(
+                    child: Text('Error: ${state.message}'),
+                  );
+                } else if (state is SearchCourseSuccess) {
+                  var dataLength = state.result.data!.length;
+                  return ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: dataLength,
+                    itemBuilder: (context, index) {
+                      var result = state.result.data![index];
+                      return GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => DetailCourseScreen()));
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const DetailCourseScreen(),
+                              settings: RouteSettings(arguments: course),
+                            ),
+                          );
                         },
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 150,
-                              width: 130,
-                              decoration: BoxDecoration(
-                                color: Colors.amber,
-                                borderRadius: BorderRadius.circular(5),
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 24),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 100,
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  image: DecorationImage(
+                                    image: NetworkImage(defaultImage),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
-                              child: const Center(child: Text('thumbnail')),
-                            ),
-                            const SizedBox(height: 12),
-                            Text(
-                              'Fundamental PHP\nUntuk Menuju\nFramework Laravel\n10Untuk Pemula',
-                              style: blackTextStyle.copyWith(
-                                fontSize: 14,
-                                fontWeight: bold,
+                              const SizedBox(width: 20),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    result.title!,
+                                    style: blackTextStyle.copyWith(fontSize: 16, fontWeight: bold),
+                                  ),
+                                  const SizedBox(height: 12),
+                                  Column(
+                                    children: [
+                                      SizedBox(
+                                        width: 150,
+                                        child: Text(
+                                          result.description!,
+                                          style: greyTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: false,
+                                          maxLines: 3,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                ],
                               ),
-                            ),
-                            const SizedBox(height: 12),
-                            Text(
-                              'Fikri Ilhamsyah',
-                              style: greyTextStyle.copyWith(
-                                fontSize: 12,
-                                fontWeight: regular,
-                              ),
-                            )
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 150,
-                            width: 130,
-                            decoration: BoxDecoration(
-                              color: Colors.amber,
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: const Center(child: Text('thumbnail')),
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            'Fundamental PHP\nUntuk Menuju\nFramework Laravel\n10Untuk Pemula',
-                            style: blackTextStyle.copyWith(
-                              fontSize: 14,
-                              fontWeight: bold,
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            'Fikri Ilhamsyah',
-                            style: greyTextStyle.copyWith(
-                              fontSize: 12,
-                              fontWeight: regular,
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 32),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 150,
-                            width: 130,
-                            decoration: BoxDecoration(
-                              color: Colors.amber,
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: const Center(child: Text('thumbnail')),
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            'Fundamental PHP\nUntuk Menuju\nFramework Laravel\n10Untuk Pemula',
-                            style: blackTextStyle.copyWith(
-                              fontSize: 14,
-                              fontWeight: bold,
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            'Fikri Ilhamsyah',
-                            style: greyTextStyle.copyWith(
-                              fontSize: 12,
-                              fontWeight: regular,
-                            ),
-                          )
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 150,
-                            width: 130,
-                            decoration: BoxDecoration(
-                              color: Colors.amber,
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: const Center(child: Text('thumbnail')),
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            'Fundamental PHP\nUntuk Menuju\nFramework Laravel\n10Untuk Pemula',
-                            style: blackTextStyle.copyWith(
-                              fontSize: 14,
-                              fontWeight: bold,
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            'Fikri Ilhamsyah',
-                            style: greyTextStyle.copyWith(
-                              fontSize: 12,
-                              fontWeight: regular,
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                      );
+                    },
+                  );
+                } else {
+                  return BlocBuilder<GetCourseBloc, GetCourseState>(
+                    bloc: course,
+                    builder: (context, state) {
+                      if (state is GetCourseError) {
+                        return Text(state.message);
+                      } else if (state is GetCourseLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (state is GetCourseSuccess) {
+                        var dataLength = state.course.data!.length;
+                        return ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: dataLength,
+                          itemBuilder: (context, index) {
+                            var course = state.course.data![index];
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const DetailCourseScreen(),
+                                    settings: RouteSettings(arguments: course),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(bottom: 24),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 100,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        image: DecorationImage(
+                                          image: NetworkImage(defaultImage),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 20),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          course.title.toString(),
+                                          style: blackTextStyle.copyWith(fontSize: 16, fontWeight: bold),
+                                        ),
+                                        const SizedBox(height: 12),
+                                        Column(
+                                          children: [
+                                            SizedBox(
+                                              width: 150,
+                                              child: Text(
+                                                course.description.toString(),
+                                                style: greyTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                                overflow: TextOverflow.ellipsis,
+                                                softWrap: false,
+                                                maxLines: 3,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 20),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      } else {
+                        return const Text('');
+                      }
+                    },
+                  );
+                }
+              },
             ),
           ],
         ),

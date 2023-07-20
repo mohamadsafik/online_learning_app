@@ -12,6 +12,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       try {
         var data = await ApiServices().register(
           userName: event.userName,
+          role: event.role,
           email: event.email,
           password: event.password,
           dateBirth: event.dateBirth,
@@ -25,7 +26,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           emit(RegisterError(message: data["message"]));
         }
       } catch (e) {
-        emit(const RegisterError(message: "INTERNAL SERVER ERROR"));
+        emit(RegisterError(message: e.toString()));
       }
     });
   }

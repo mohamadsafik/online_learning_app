@@ -249,6 +249,7 @@ class _AddLecturerScreenState extends State<AddLecturerScreen> {
                             ? null
                             : context.read<RegisterBloc>().add(
                                   RegisterUserEvent(
+                                    role: "LECTURER",
                                     email: regisEmailC.text,
                                     password: regisPasswordC.text,
                                     fullName: nameC.text,

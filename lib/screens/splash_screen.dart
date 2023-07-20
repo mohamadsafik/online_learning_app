@@ -1,4 +1,3 @@
-import 'package:online_learning_app/bloc/auth/check_login/check_login_bloc.dart';
 import 'package:online_learning_app/export.dart';
 
 class SplashScreen extends StatefulWidget {

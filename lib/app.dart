@@ -1,4 +1,4 @@
-import 'package:online_learning_app/bloc/user/get_user_bloc.dart';
+import 'package:online_learning_app/bloc/course/search_course/search_course_bloc.dart';
 
 import 'export.dart';
 
@@ -34,7 +34,19 @@ class MyApp extends StatelessWidget {
           create: (context) => GetCourseByIdBloc(),
         ),
         BlocProvider(
+          create: (context) => GetCourseBloc(),
+        ),
+        BlocProvider(
           create: (context) => GetUserBloc(),
+        ),
+        BlocProvider(
+          create: (context) => JoinBloc(),
+        ),
+        BlocProvider(
+          create: (context) => GetUserJoinedCourseBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SearchCourseBloc(),
         ),
       ],
       child: const App(),
@@ -50,7 +62,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(),
       debugShowCheckedModeBanner: false,
-      // home: GaweAnyar(),
+      // home: MyWidget(),
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),

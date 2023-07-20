@@ -11,7 +11,7 @@ class AddNewCourseEvent extends AddCourseEvent {
   final int? categoryId;
   final String title;
   final String desc;
-  final String? image;
+  final String image;
   final String memberId;
   const AddNewCourseEvent({
     required this.categoryId,

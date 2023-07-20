@@ -70,7 +70,7 @@ class ProfileScreen extends StatelessWidget {
                                   style: blackTextStyle.copyWith(fontSize: 14, fontWeight: semibold),
                                 ),
                                 Text(
-                                  state.user.data!.idUser!.toString(),
+                                  state.user.data!.id!.toString(),
                                   style: blackTextStyle.copyWith(fontSize: 14, fontWeight: medium),
                                 ),
                               ],

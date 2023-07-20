@@ -22,7 +22,7 @@ class StorageService {
     await _secureStorage.write(key: key, value: value);
   }
 
-  Future<void> saveData({
+  Future<void> saveDataUser({
     required String idUser,
     required String fullname,
     required String role,

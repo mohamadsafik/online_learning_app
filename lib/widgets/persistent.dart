@@ -24,7 +24,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     return [
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.house),
-        title: "Home",
+        title: "Beranda",
         activeColorPrimary: kWhiteColor,
         activeColorSecondary: kBlackColor,
         inactiveColorPrimary: kGreyColor,
@@ -39,8 +39,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
         iconSize: 18,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.settings),
-        title: "Pengaturan",
+        icon: const Icon(CupertinoIcons.person_alt),
+        title: "Profil",
         activeColorPrimary: kWhiteColor,
         activeColorSecondary: kBlackColor,
         inactiveColorPrimary: kGreyColor,

@@ -272,6 +272,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     password: widget.regisPasswordC.text,
                                     fullName: widget.nameC.text,
                                     userName: widget.nameC.text,
+                                    role: 'STUDENT',
                                     dateBirth: '2000-10-10',
                                   ),
                                 );

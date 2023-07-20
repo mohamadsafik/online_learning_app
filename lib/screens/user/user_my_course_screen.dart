@@ -1,116 +1,36 @@
 import 'package:online_learning_app/export.dart';
-import 'package:online_learning_app/screens/user/user_my_course_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required Map<String, String> arguments});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
+class MyCourseScreen extends StatelessWidget {
+  const MyCourseScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(25),
-        child: SafeArea(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  BlocBuilder<CheckLoginBloc, CheckLoginState>(
-                    builder: (context, state) {
-                      if (state is CheckLoginSuccess) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Halo,',
-                              style: greyTextStyle.copyWith(
-                                fontSize: 16,
-                                fontWeight: regular,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              state.data.name.toUpperCase(),
-                              style: blackTextStyle.copyWith(
-                                fontSize: 20,
-                                fontWeight: bold,
-                              ),
-                            ),
-                          ],
-                        );
-                      } else {
-                        return BlocBuilder<LoginBloc, LoginState>(
-                          builder: (context, state) {
-                            if (state is LoginSuccess) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Halo,',
-                                    style: greyTextStyle.copyWith(
-                                      fontSize: 16,
-                                      fontWeight: regular,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    state.user.data!.name.toString().toUpperCase(),
-                                    style: blackTextStyle.copyWith(
-                                      fontSize: 20,
-                                      fontWeight: bold,
-                                    ),
-                                  ),
-                                ],
-                              );
-                            } else {
-                              return const Text('error');
-                            }
-                          },
-                        );
-                      }
-                    },
-                  ),
-                  InkWell(
-                    onTap: () => Navigator.of(context).pushNamed('/settings'),
-                    child: const SizedBox(
-                      child: CircleAvatar(),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 50),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    'Kursus Kamu',
-                    style: blackTextStyle.copyWith(fontSize: 18, fontWeight: bold),
-                  ),
-                  TextButton(
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back_ios),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const MyCourseScreen()));
+                      Navigator.pop(context);
                     },
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      alignment: Alignment.centerLeft,
-                    ),
-                    child: Text(
-                      'Lihat Semua',
-                      style: greyTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                  ),
+                  Text(
+                    'Kursus Saya',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 18,
+                      fontWeight: semibold,
                     ),
                   ),
+                  const Spacer(),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 16),
               BlocBuilder<CheckLoginBloc, CheckLoginState>(
                 builder: (context, state) {
                   if (state is CheckLoginSuccess) {

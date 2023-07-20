@@ -134,78 +134,89 @@ class LecturerHomeScreen extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: 50),
-                  Text("Daftar kursus : ", style: blackTextStyle.copyWith(fontSize: 20)),
-                  const SizedBox(height: 16),
                   BlocBuilder<CheckLoginBloc, CheckLoginState>(
                     builder: (context, state) {
                       if (state is CheckLoginSuccess) {
-                        print(state.data.idUser);
-                        return BlocBuilder<GetCourseByIdBloc, GetCourseByIdState>(
-                          bloc: context.read<GetCourseByIdBloc>()..add(CourseByIdEvent(id: state.data.idUser)),
-                          builder: (context, state) {
-                            if (state is GetCourseByIdLoading) {
-                              return const CircularProgressIndicator();
-                            } else if (state is GetCourseByIdSuccess) {
-                              var dataLength = state.course.data!.length;
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: dataLength,
-                                itemBuilder: (context, index) {
-                                  var course = state.course.data![index];
-                                  return InkWell(
-                                    onTap: () {
-                                      Navigator.pushNamed(context, '/');
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Daftar kursus : ", style: blackTextStyle.copyWith(fontSize: 20)),
+                            const SizedBox(height: 16),
+                            BlocBuilder<GetCourseByIdBloc, GetCourseByIdState>(
+                              bloc: context.read<GetCourseByIdBloc>()..add(CourseByIdEvent(id: state.data.idUser)),
+                              builder: (context, state) {
+                                if (state is GetCourseByIdLoading) {
+                                  return const CircularProgressIndicator();
+                                } else if (state is GetCourseByIdSuccess) {
+                                  var dataLength = state.course.data!.length;
+                                  return ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: dataLength,
+                                    itemBuilder: (context, index) {
+                                      var course = state.course.data![index];
+                                      return InkWell(
+                                        onTap: () {
+                                          Navigator.pushNamed(context, '/');
+                                        },
+                                        child: ListTile(
+                                          title: Text(course.title.toString(), style: blackTextStyle.copyWith(fontSize: 16, fontWeight: bold)),
+                                          subtitle: Text(
+                                            course.description.toString(),
+                                            style: greyTextStyle.copyWith(fontWeight: regular),
+                                          ),
+                                        ),
+                                      );
                                     },
-                                    child: ListTile(
-                                      title: Text(course.title.toString(), style: blackTextStyle.copyWith(fontSize: 16, fontWeight: bold)),
-                                      subtitle: Text(
-                                        course.description.toString(),
-                                        style: greyTextStyle.copyWith(fontWeight: regular),
-                                      ),
-                                    ),
                                   );
-                                },
-                              );
-                            } else {
-                              return const Text('kamu belum memiliki kursus');
-                            }
-                          },
+                                } else {
+                                  return const Text('kamu belum memiliki kursus');
+                                }
+                              },
+                            ),
+                          ],
                         );
                       } else {
                         return BlocBuilder<LoginBloc, LoginState>(
                           builder: (context, state) {
                             if (state is LoginSuccess) {
-                              print(state.user.data!.idUser);
-                              return BlocBuilder<GetCourseByIdBloc, GetCourseByIdState>(
-                                bloc: context.read<GetCourseByIdBloc>()..add(CourseByIdEvent(id: state.user.data!.idUser.toString())),
-                                builder: (context, state) {
-                                  if (state is GetCourseByIdLoading) {
-                                    return const CircularProgressIndicator();
-                                  } else if (state is GetCourseByIdSuccess) {
-                                    var dataLength = state.course.data!.length;
-                                    return ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: dataLength,
-                                      itemBuilder: (context, index) {
-                                        var course = state.course.data![index];
-                                        return InkWell(
-                                          onTap: () {
-                                            Navigator.pushNamed(context, '/');
+                              print(state.user.data!.id);
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Daftar kursus : ", style: blackTextStyle.copyWith(fontSize: 20)),
+                                  const SizedBox(height: 16),
+                                  BlocBuilder<GetCourseByIdBloc, GetCourseByIdState>(
+                                    bloc: context.read<GetCourseByIdBloc>()..add(CourseByIdEvent(id: state.user.data!.id.toString())),
+                                    builder: (context, state) {
+                                      if (state is GetCourseByIdLoading) {
+                                        return const CircularProgressIndicator();
+                                      } else if (state is GetCourseByIdSuccess) {
+                                        var dataLength = state.course.data!.length;
+                                        return ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: dataLength,
+                                          itemBuilder: (context, index) {
+                                            var course = state.course.data![index];
+                                            return InkWell(
+                                              onTap: () {
+                                                Navigator.pushNamed(context, '/');
+                                              },
+                                              child: ListTile(
+                                                title: Text(course.title.toString(), style: blackTextStyle.copyWith(fontSize: 16, fontWeight: bold)),
+                                                subtitle: Text(
+                                                  course.description.toString(),
+                                                  style: greyTextStyle.copyWith(fontWeight: regular),
+                                                ),
+                                              ),
+                                            );
                                           },
-                                          child: ListTile(
-                                            title: Text(course.title.toString(), style: blackTextStyle.copyWith(fontSize: 16, fontWeight: bold)),
-                                            subtitle: Text(
-                                              course.description.toString(),
-                                              style: greyTextStyle.copyWith(fontWeight: regular),
-                                            ),
-                                          ),
                                         );
-                                      },
-                                    );
-                                  } else {
-                                    return const Text('kamu belum memiliki kursus');
-                                  }
-                                },
+                                      } else {
+                                        return const Text('kamu belum memiliki kursus');
+                                      }
+                                    },
+                                  ),
+                                ],
                               );
                             } else {
                               return const Text(''); //

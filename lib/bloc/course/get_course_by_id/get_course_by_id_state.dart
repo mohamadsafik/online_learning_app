@@ -18,5 +18,5 @@ class GetCourseByIdSuccess extends GetCourseByIdState {
 
 class GetCourseByIdError extends GetCourseByIdState {
   final String message;
-  GetCourseByIdError({required this.message});
+  const GetCourseByIdError({required this.message});
 }

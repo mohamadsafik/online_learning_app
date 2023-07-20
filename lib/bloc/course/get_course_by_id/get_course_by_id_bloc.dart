@@ -12,8 +12,8 @@ class GetCourseByIdBloc extends Bloc<GetCourseByIdEvent, GetCourseByIdState> {
     on<CourseByIdEvent>((event, emit) async {
       emit(GetCourseByIdLoading());
       try {
-        var json = await ApiServices().getCourseById(id: event.id);
-        print(json);
+        var json = await ApiServices().getCourseByIdLecturer(id: event.id);
+        // print(json);
         CourseModel course = CourseModel.fromJson(json);
         if (course.result == true) {
           emit(GetCourseByIdSuccess(course: course));

@@ -38,18 +38,35 @@ class ApiServices {
     }
   }
 
-  Future getCourseById({required String id}) async {
+  Future getCategories() async {
+    return await getData(relativeUrl: '/categories');
+  }
+
+  Future getCourseByIdLecturer({required String id}) async {
     return await getData(relativeUrl: '/course/$id');
   }
 
+  Future getUserJoinedCourse({required String id}) async {
+    return await getData(relativeUrl: '/course/$id/joined-courses');
+  }
+
+  Future getCourses() async {
+    return await getData(relativeUrl: '/courses');
+  }
+
+  Future searchCourse({required String query}) async {
+    return await getData(relativeUrl: '/course/search?query=$query');
+  }
+
   Future getUser() async {
-    return await getData(relativeUrl: '/user');
+    return await getData(relativeUrl: '/users');
   }
 
   Future register({
     required String email,
     required String password,
     required String fullName,
+    required String role,
     String userName = '',
     String dateBirth = '',
     String gender = '',
@@ -59,6 +76,7 @@ class ApiServices {
       "email": email,
       "password": password,
       "date_of_birth": dateBirth,
+      "role": role,
       "gender": gender,
       "full_name": fullName,
     };
@@ -115,7 +133,7 @@ class ApiServices {
     required String categoryId,
     required String title,
     required String desc,
-    // required String? image,
+    required String image,
     required String memberId,
   }) async {
     String? user = await storage.readData('user');
@@ -126,36 +144,25 @@ class ApiServices {
       'title': title,
       'member_id': memberId,
       'description': desc,
-      // 'image': image,
+      'image': image,
     };
     print(body);
     return await _postData(relativeUrl: '/course/add', body: body);
   }
 
-  Future uploadImageCourse({required imagePath}) async {
-    if (imagePath != null) {
-      // Membuka file gambar yang dipilih
-      final file = File(imagePath!);
-      String format = imagePath!.path.split('.').last;
-      final base64String = base64Encode(file.readAsBytesSync());
-      var base64 = 'data:image/$format;base64,$base64String';
-      // Mengonversi gambar ke Base64
-
-      // Mengirim permintaan HTTP menggunakan package http
-      final url = Uri.parse('${AppConstants().baseUrl}/course/add'); // Ganti dengan URL endpoint API Anda
-      final request = http.MultipartRequest('POST', url);
-      request.fields['image'] = base64;
-      request.files.add(await http.MultipartFile.fromPath('images/courses', file.path));
-
-      // Mengirim permintaan dan menangani responsenya
-      final response = await request.send();
-      if (response.statusCode == 200) {
-        // Gambar berhasil diunggah
-        print('Image uploaded successfully');
-      } else {
-        // Terjadi kesalahan saat mengunggah gambar
-        print('Image upload failed');
-      }
-    }
+  Future joinCourse({
+    required String courseId,
+    required String joinedAt,
+  }) async {
+    String? user = await storage.readData('user');
+    UserModelStorage appUserModel = UserModelStorage.deserialize(user!);
+    Map<String, dynamic> body = {
+      'user_id': appUserModel.idUser,
+      'course_id': courseId,
+      'joined_at': joinedAt,
+    };
+    print(body);
+    print("ID USER : ${appUserModel.idUser}");
+    return await _postData(relativeUrl: '/course/$courseId/join', body: body);
   }
 }

@@ -1,6 +1,7 @@
 import 'package:online_learning_app/bloc/auth/check_login/check_login_bloc.dart';
 import 'package:online_learning_app/constant/storage_services.dart';
 import 'package:online_learning_app/export.dart';
+import 'package:online_learning_app/screens/user/user_my_course_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   final Map<String, String> arguments;
@@ -71,16 +72,41 @@ class SettingsScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
+                    const Divider(),
                     InkWell(
                       // onTap: () => Navigator.of(context).pushNamed('/profil'),
                       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileScreen())),
-                      child: const ListTile(
-                        contentPadding: EdgeInsets.all(0),
-                        leading: Icon(Icons.person),
-                        title: Text('My Profile'),
-                        trailing: Icon(Icons.keyboard_arrow_right),
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.all(0),
+                        leading: const Icon(Icons.person),
+                        title: Text(
+                          'Profil Saya',
+                          style: blackTextStyle.copyWith(
+                            fontSize: 16,
+                            fontWeight: medium,
+                          ),
+                        ),
+                        trailing: const Icon(Icons.keyboard_arrow_right),
                       ),
                     ),
+                    const Divider(),
+                    InkWell(
+                      // onTap: () => Navigator.of(context).pushNamed('/profil'),
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const MyCourseScreen())),
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.all(0),
+                        leading: const Icon(Icons.person),
+                        title: Text(
+                          'Kursus Saya',
+                          style: blackTextStyle.copyWith(
+                            fontSize: 16,
+                            fontWeight: medium,
+                          ),
+                        ),
+                        trailing: const Icon(Icons.keyboard_arrow_right),
+                      ),
+                    ),
+                    const Divider(),
                     InkWell(
                       onTap: () {
                         showDialog(
@@ -155,12 +181,19 @@ class SettingsScreen extends StatelessWidget {
                           },
                         );
                       },
-                      child: const ListTile(
-                        contentPadding: EdgeInsets.all(0),
-                        leading: Icon(Icons.logout),
-                        title: Text('Logout'),
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.all(0),
+                        leading: const Icon(Icons.logout),
+                        title: Text(
+                          'Logout',
+                          style: blackTextStyle.copyWith(
+                            fontSize: 16,
+                            fontWeight: medium,
+                          ),
+                        ),
                       ),
                     ),
+                    const Divider(),
                   ],
                 ),
               ),

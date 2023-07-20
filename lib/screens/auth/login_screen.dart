@@ -195,8 +195,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 listener: (context, state) {
                   if (state is LoginSuccess) {
                     var user = state.user.data;
-                    storage.saveData(
-                      idUser: "${user!.idUser}",
+                    storage.saveDataUser(
+                      idUser: "${user!.id}",
                       fullname: "${user.name}",
                       role: "${user.role}",
                       email: "${user.email}",
@@ -272,7 +272,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     backgroundColor: (state is LoginLoading) ? kGreyColor : kPrimaryColor,
                     onPressed: () {
                       if (widget._formKey.currentState!.validate()) {
-                        // If the form is valid, display a snackbar. In the real world,
                         //Store the data
                         context.read<LoginBloc>().add(
                               LoginUserEvent(

@@ -1,5 +1,6 @@
+import 'dart:convert';
+
 import 'package:image_picker/image_picker.dart';
-import 'package:online_learning_app/bloc/course/category/category_bloc.dart';
 import 'package:online_learning_app/data/models/app/category_model.dart';
 import 'package:online_learning_app/export.dart';
 
@@ -18,9 +19,6 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
   final TextEditingController desc = TextEditingController();
   final TextEditingController image = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final List<String> category = [
-    '',
-  ];
   int? selectedCategory;
   late int selectedCategoryId;
   late int categoryValue;
@@ -59,13 +57,15 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
           ),
         );
         //Store the data
-        print(selectedCategory);
+        print("CATEGORY ID : $selectedCategory");
+        print("TITLE : ${title.text}");
+        print("DESCRIPTION : ${desc.text}");
+        print("IMAGE $imagePath");
         context.read<AddCourseBloc>().add(
               AddNewCourseEvent(
                 categoryId: selectedCategory,
                 desc: desc.text,
-                image: imagePath,
-                // memberId: 0,`
+                image: imagePath.toString(),
                 title: title.text,
               ),
             );
@@ -77,17 +77,16 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
       });
     }
 
-    Future<void> pickImageFromGallery() async {
-      final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (pickedImage != null) {
+    Future pickImageFromGallery() async {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image != null) {
         setState(() {
-          imagePath = pickedImage.path;
+          imagePath = image.path;
         });
-        print(pickedImage.path);
       }
     }
 
-    Future<void> removeImage() async {
+    Future removeImage() async {
       setState(() {
         imagePath = null;
       });
@@ -348,6 +347,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                           ),
                         );
                       } else if (state is AddCourseError) {
+                        print(state.message);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             duration: const Duration(seconds: 3),

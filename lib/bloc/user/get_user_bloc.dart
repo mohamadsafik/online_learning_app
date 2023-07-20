@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:online_learning_app/data/api_services/api_services.dart';
-import 'package:online_learning_app/data/models/app/user_model.dart';
 import 'package:online_learning_app/data/models/user/user_model.dart';
 
 part 'get_user_event.dart';
