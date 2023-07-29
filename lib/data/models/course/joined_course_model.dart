@@ -2,7 +2,7 @@ class JoinedCourseModel {
   bool? result;
   String? message;
   Data? data;
-  Null? error;
+  String? error;
 
   JoinedCourseModel({this.result, this.message, this.data, this.error});
 
@@ -62,15 +62,16 @@ class Course {
   int? id;
   int? authorId;
   int? categoryId;
-  Null? memberId;
+  String? memberId;
   String? title;
   String? description;
   String? image;
-  Null? deletedAt;
+  String? deletedAt;
   String? createdAt;
   String? updatedAt;
+  String? categoryName;
 
-  Course({this.id, this.authorId, this.categoryId, this.memberId, this.title, this.description, this.image, this.deletedAt, this.createdAt, this.updatedAt});
+  Course({this.id, this.authorId, this.categoryId, this.memberId, this.title, this.description, this.image, this.deletedAt, this.createdAt, this.updatedAt, this.categoryName});
 
   Course.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -83,6 +84,7 @@ class Course {
     deletedAt = json['deleted_at'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    categoryName = json['category_name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -97,6 +99,7 @@ class Course {
     data['deleted_at'] = this.deletedAt;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['category_name'] = this.categoryName;
     return data;
   }
 }
@@ -105,7 +108,7 @@ class Lecturer {
   int? id;
   String? name;
   String? email;
-  Null? emailVerifiedAt;
+  String? emailVerifiedAt;
   String? createdAt;
   String? updatedAt;
   String? role;

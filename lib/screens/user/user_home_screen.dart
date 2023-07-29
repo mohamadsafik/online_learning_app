@@ -1,5 +1,4 @@
 import 'package:online_learning_app/export.dart';
-import 'package:online_learning_app/screens/user/user_my_course_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required Map<String, String> arguments});
@@ -118,55 +117,65 @@ class _HomeScreenState extends State<HomeScreen> {
                       bloc: context.read<GetUserJoinedCourseBloc>()..add(UserJoinedCourseEvent(userId: state.data.idUser.toString())),
                       builder: (context, state) {
                         if (state is GetUserJoinedCourseSuccess) {
+                          var dataLength = state.joinedCourse.data!.course!.length;
                           return ListView.builder(
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
-                            itemCount: state.joinedCourse.data!.course!.length,
+                            itemCount: dataLength,
                             itemBuilder: (context, index) {
                               var course = state.joinedCourse.data!.course![index];
                               var lecturer = state.joinedCourse.data!.lecturer![index];
-                              return Container(
-                                margin: const EdgeInsets.only(bottom: 16),
-                                child: Card(
-                                  elevation: 0,
-                                  color: const Color.fromRGBO(64, 75, 96, .9),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.all(15),
-                                        child: Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Image.asset(
-                                              "assets/logo.png",
-                                              height: 75,
-                                              width: 75,
-                                              fit: BoxFit.cover,
-                                            ),
-                                            Container(width: 20),
-                                            Expanded(
-                                              child: Column(
+                              return InkWell(
+                                onTap: () {
+                                  Map<String, dynamic> arguments = {
+                                    'course': course,
+                                    'lecturer': lecturer,
+                                  };
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const DetailCourseScreen(),
+                                      settings: RouteSettings(arguments: arguments),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(bottom: 16),
+                                  child: Card(
+                                    elevation: 0,
+                                    color: kTileColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.all(15),
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Image.asset(
+                                                "assets/logo.png",
+                                                height: 75,
+                                                width: 75,
+                                                fit: BoxFit.cover,
+                                              ),
+                                              Container(width: 20),
+                                              Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: <Widget>[
                                                   Text(
                                                     course.title!,
                                                     style: whiteTextStyle.copyWith(fontSize: 16, fontWeight: bold),
                                                   ),
-                                                  // Add some spacing between the title and the subtitle
                                                   Container(height: 5),
-                                                  // Add a subtitle widget
                                                   Text(
                                                     lecturer.name!,
                                                     style: greyTextStyle.copyWith(fontSize: 12, fontWeight: regular),
                                                   ),
-                                                  // Add some spacing between the subtitle and the text
                                                   Container(height: 16),
-                                                  // Add a text widget to display some text
                                                   Text(
                                                     "Progress ",
                                                     maxLines: 2,
@@ -174,11 +183,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   ),
                                                 ],
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );
@@ -216,43 +225,77 @@ class _HomeScreenState extends State<HomeScreen> {
                             builder: (context, state) {
                               if (state is GetUserJoinedCourseSuccess) {
                                 return ListView.builder(
-                                  scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
                                   itemCount: state.joinedCourse.data!.course!.length,
                                   itemBuilder: (context, index) {
                                     var course = state.joinedCourse.data!.course![index];
                                     var lecturer = state.joinedCourse.data!.lecturer![index];
-                                    return Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          height: 150,
-                                          width: 120,
-                                          decoration: BoxDecoration(
-                                            color: Colors.amber,
-                                            borderRadius: BorderRadius.circular(5),
+                                    return InkWell(
+                                      onTap: () {
+                                        Map<String, dynamic> arguments = {
+                                          'course': course,
+                                          'lecturer': lecturer,
+                                        };
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => const DetailCourseScreen(),
+                                            settings: RouteSettings(arguments: arguments),
                                           ),
-                                          child: const Center(
-                                            child: Text('thumbnail'),
+                                        );
+                                      },
+                                      child: Container(
+                                        margin: const EdgeInsets.only(bottom: 16),
+                                        child: Card(
+                                          elevation: 0,
+                                          color: kTileColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(20),
+                                          ),
+                                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.all(15),
+                                                child: Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Image.asset(
+                                                      "assets/logo.png",
+                                                      height: 75,
+                                                      width: 75,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                    Container(width: 20),
+                                                    Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          course.title!,
+                                                          style: whiteTextStyle.copyWith(fontSize: 16, fontWeight: bold),
+                                                        ),
+                                                        Container(height: 5),
+                                                        Text(
+                                                          lecturer.name!,
+                                                          style: greyTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                                        ),
+                                                        Container(height: 16),
+                                                        Text(
+                                                          "Progress ",
+                                                          maxLines: 2,
+                                                          style: whiteTextStyle.copyWith(fontSize: 14),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        const SizedBox(height: 12),
-                                        Text(
-                                          course.title!,
-                                          style: blackTextStyle.copyWith(
-                                            fontSize: 14,
-                                            fontWeight: bold,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 12),
-                                        Text(
-                                          lecturer.name!,
-                                          style: greyTextStyle.copyWith(
-                                            fontSize: 12,
-                                            fontWeight: regular,
-                                          ),
-                                        )
-                                      ],
+                                      ),
                                     );
                                   },
                                 );

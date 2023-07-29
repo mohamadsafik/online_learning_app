@@ -13,6 +13,7 @@ class AddCourseScreen extends StatefulWidget {
 
 class _AddCourseScreenState extends State<AddCourseScreen> {
   File? imageSelected;
+  String? _base64;
   final TextEditingController categoryId = TextEditingController();
   final TextEditingController memberId = TextEditingController();
   final TextEditingController title = TextEditingController();
@@ -78,12 +79,21 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
     }
 
     Future pickImageFromGallery() async {
+      // final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      // if (image != null) {
+      //   setState(() {
+      //     imagePath = image.path;
+      //   });
+      // }
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image != null) {
-        setState(() {
-          imagePath = image.path;
-        });
-      }
+
+      if (image == null) return;
+      setState(() {});
+      File path = File(image.path);
+      String format = image.path.split('.').last;
+      final base64String = base64Encode(path.readAsBytesSync());
+      _base64 = 'data:image/$format;base64,$base64String';
+      print(_base64);
     }
 
     Future removeImage() async {

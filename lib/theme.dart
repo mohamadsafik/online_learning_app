@@ -8,6 +8,7 @@ const Color kWhiteColor = Color(0xffFFFFFF);
 const Color kGreyColor = Color(0xffBFBFBF);
 const Color kGreenColor = Color(0xff0EC3AE);
 const Color kLoadingColor = Color(0xff3A98B9);
+const Color kTileColor = Color.fromRGBO(64, 75, 96, .9);
 const Color kRedColor = Color(0xffEB70A5);
 const Color kBackgroundColor = Color(0xffF1F1F1);
 const Color kInactiveColor = Color(0xffDBD7EC);

@@ -1,3 +1,5 @@
+import 'package:online_learning_app/screens/admin/add_category_screen.dart';
+
 import '../../export.dart';
 
 class AdminHomeScreen extends StatelessWidget {
@@ -101,6 +103,12 @@ class AdminHomeScreen extends StatelessWidget {
                   Navigator.of(context).pushNamed('/add-lecturer');
                 },
                 child: const Text('TAMBAH LECTURER'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AddCategoryScreen()));
+                },
+                child: const Text('TAMBAH CATEGORY'),
               ),
             ],
           ),

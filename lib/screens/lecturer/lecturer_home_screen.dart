@@ -1,10 +1,8 @@
-import 'package:online_learning_app/bloc/course/get_course_by_id/get_course_by_id_bloc.dart';
-
-import '../../constant/storage_services.dart';
 import '../../export.dart';
 
 class LecturerHomeScreen extends StatelessWidget {
   final Map<String, String> arguments;
+
   const LecturerHomeScreen({super.key, required this.arguments});
 
   @override
@@ -115,7 +113,7 @@ class LecturerHomeScreen extends StatelessWidget {
                         );
                       } else if (state is CheckLoginLoading) {
                         return const Center(
-                          child: Text(''),
+                          child: CircularProgressIndicator(),
                         );
                       } else {
                         return BlocBuilder<LoginBloc, LoginState>(
@@ -123,6 +121,15 @@ class LecturerHomeScreen extends StatelessWidget {
                             if (state is LoginSuccess) {
                               return Text(
                                 "Hello, ${state.user.data!.name!.toUpperCase()}",
+                                style: blackTextStyle.copyWith(fontSize: 22, fontWeight: bold),
+                              );
+                            } else if (state is LoginLoading) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else if (state is LoginError) {
+                              return Text(
+                                state.message,
                                 style: blackTextStyle.copyWith(fontSize: 22, fontWeight: bold),
                               );
                             } else {
@@ -156,20 +163,137 @@ class LecturerHomeScreen extends StatelessWidget {
                                       var course = state.course.data![index];
                                       return InkWell(
                                         onTap: () {
-                                          Navigator.pushNamed(context, '/');
+                                          Navigator.pushNamed(context, '/lecturer-detail', arguments: course);
                                         },
                                         child: ListTile(
-                                          title: Text(course.title.toString(), style: blackTextStyle.copyWith(fontSize: 16, fontWeight: bold)),
+                                          title: Text(
+                                            course.title.toString(),
+                                            style: blackTextStyle.copyWith(
+                                              fontSize: 16,
+                                              fontWeight: bold,
+                                            ),
+                                          ),
                                           subtitle: Text(
                                             course.description.toString(),
                                             style: greyTextStyle.copyWith(fontWeight: regular),
+                                          ),
+                                          trailing: IconButton(
+                                            onPressed: () {
+                                              //Show Dialog Delete Course
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext context) {
+                                                  return AlertDialog(
+                                                    title: Text(
+                                                      ('Delete Course'),
+                                                      style: blackTextStyle.copyWith(
+                                                        fontSize: 18,
+                                                        fontWeight: bold,
+                                                      ),
+                                                    ),
+                                                    content: Text(
+                                                      'Are you sure want to delete ${course.title}?',
+                                                      style: greyTextStyle.copyWith(
+                                                        fontSize: 14,
+                                                        fontWeight: regular,
+                                                      ),
+                                                    ),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(context);
+                                                        },
+                                                        child: Text(
+                                                          'Cancel',
+                                                          style: blackTextStyle.copyWith(
+                                                            color: Colors.red,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          BlocListener<DeleteCourseBloc, DeleteCourseState>(
+                                                            bloc: context.read<DeleteCourseBloc>()..add(DeleteCourseByIdEvent(id: course.id.toString())),
+                                                            listener: (context, state) {
+                                                              if (state is DeleteCourseSuccess) {
+                                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                                  SnackBar(
+                                                                    duration: const Duration(seconds: 3),
+                                                                    behavior: SnackBarBehavior.floating,
+                                                                    elevation: 0,
+                                                                    backgroundColor: kGreenColor,
+                                                                    content: Row(
+                                                                      children: [
+                                                                        const Icon(
+                                                                          Icons.beenhere_rounded,
+                                                                          color: Colors.white,
+                                                                        ),
+                                                                        const SizedBox(width: 12),
+                                                                        Text(
+                                                                          state.message,
+                                                                          style: whiteTextStyle.copyWith(
+                                                                            fontSize: 14,
+                                                                            fontWeight: bold,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              } else if (state is DeleteCourseError) {
+                                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                                  SnackBar(
+                                                                    duration: const Duration(seconds: 3),
+                                                                    behavior: SnackBarBehavior.floating,
+                                                                    elevation: 0,
+                                                                    backgroundColor: kRedColor,
+                                                                    content: Row(
+                                                                      children: [
+                                                                        const Icon(
+                                                                          Icons.beenhere_rounded,
+                                                                          color: Colors.white,
+                                                                        ),
+                                                                        const SizedBox(width: 12),
+                                                                        Text(
+                                                                          state.message,
+                                                                          style: whiteTextStyle.copyWith(
+                                                                            fontSize: 14,
+                                                                            fontWeight: bold,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              }
+                                                            },
+                                                          );
+                                                        },
+                                                        child: Text(
+                                                          'Delete Now',
+                                                          style: blackTextStyle.copyWith(
+                                                            color: Colors.green,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+                                            },
+                                            icon: const Icon(
+                                              Icons.delete,
+                                              size: 20,
+                                            ),
                                           ),
                                         ),
                                       );
                                     },
                                   );
                                 } else {
-                                  return const Text('kamu belum memiliki kursus');
+                                  return const Center(
+                                    child: Text('kamu belum memiliki kursus'),
+                                  );
                                 }
                               },
                             ),
@@ -199,13 +323,123 @@ class LecturerHomeScreen extends StatelessWidget {
                                             var course = state.course.data![index];
                                             return InkWell(
                                               onTap: () {
-                                                Navigator.pushNamed(context, '/');
+                                                Navigator.pushNamed(context, '/lecturer-detail', arguments: course);
                                               },
                                               child: ListTile(
                                                 title: Text(course.title.toString(), style: blackTextStyle.copyWith(fontSize: 16, fontWeight: bold)),
                                                 subtitle: Text(
                                                   course.description.toString(),
                                                   style: greyTextStyle.copyWith(fontWeight: regular),
+                                                ),
+                                                trailing: IconButton(
+                                                  onPressed: () {
+                                                    //Show Dialog Delete Course
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext context) {
+                                                        return AlertDialog(
+                                                          title: Text(
+                                                            ('Delete Course'),
+                                                            style: blackTextStyle.copyWith(
+                                                              fontSize: 18,
+                                                              fontWeight: bold,
+                                                            ),
+                                                          ),
+                                                          content: Text(
+                                                            'Are you sure want to delete ${course.title}?',
+                                                            style: greyTextStyle.copyWith(
+                                                              fontSize: 14,
+                                                              fontWeight: regular,
+                                                            ),
+                                                          ),
+                                                          actions: [
+                                                            TextButton(
+                                                              onPressed: () {
+                                                                Navigator.pop(context);
+                                                              },
+                                                              child: Text(
+                                                                'Cancel',
+                                                                style: blackTextStyle.copyWith(
+                                                                  color: Colors.red,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            TextButton(
+                                                              onPressed: () {
+                                                                BlocListener<DeleteCourseBloc, DeleteCourseState>(
+                                                                  bloc: context.read<DeleteCourseBloc>()..add(DeleteCourseByIdEvent(id: course.id.toString())),
+                                                                  listener: (context, state) {
+                                                                    // TODO: implement listener
+                                                                    if (state is DeleteCourseSuccess) {
+                                                                      ScaffoldMessenger.of(context).showSnackBar(
+                                                                        SnackBar(
+                                                                          duration: const Duration(seconds: 3),
+                                                                          behavior: SnackBarBehavior.floating,
+                                                                          elevation: 0,
+                                                                          backgroundColor: kGreenColor,
+                                                                          content: Row(
+                                                                            children: [
+                                                                              const Icon(
+                                                                                Icons.beenhere_rounded,
+                                                                                color: Colors.white,
+                                                                              ),
+                                                                              const SizedBox(width: 12),
+                                                                              Text(
+                                                                                state.message,
+                                                                                style: whiteTextStyle.copyWith(
+                                                                                  fontSize: 14,
+                                                                                  fontWeight: bold,
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      );
+                                                                    } else if (state is DeleteCourseError) {
+                                                                      ScaffoldMessenger.of(context).showSnackBar(
+                                                                        SnackBar(
+                                                                          duration: const Duration(seconds: 3),
+                                                                          behavior: SnackBarBehavior.floating,
+                                                                          elevation: 0,
+                                                                          backgroundColor: kRedColor,
+                                                                          content: Row(
+                                                                            children: [
+                                                                              const Icon(
+                                                                                Icons.beenhere_rounded,
+                                                                                color: Colors.white,
+                                                                              ),
+                                                                              const SizedBox(width: 12),
+                                                                              Text(
+                                                                                state.message,
+                                                                                style: whiteTextStyle.copyWith(
+                                                                                  fontSize: 14,
+                                                                                  fontWeight: bold,
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      );
+                                                                    }
+                                                                  },
+                                                                );
+                                                              },
+                                                              child: Text(
+                                                                'Delete Now',
+                                                                style: blackTextStyle.copyWith(
+                                                                  color: Colors.green,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.delete,
+                                                    size: 20,
+                                                  ),
                                                 ),
                                               ),
                                             );
@@ -219,7 +453,7 @@ class LecturerHomeScreen extends StatelessWidget {
                                 ],
                               );
                             } else {
-                              return const Text(''); //
+                              return const Text('kamu belum memiliki kursus'); //
                             }
                           },
                         );

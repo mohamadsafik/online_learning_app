@@ -1,4 +1,4 @@
-import 'package:online_learning_app/bloc/course/join/join_bloc.dart';
+import 'package:online_learning_app/bloc/course/join_course/join_bloc.dart';
 import '../../export.dart';
 
 class MyWidget extends StatelessWidget {

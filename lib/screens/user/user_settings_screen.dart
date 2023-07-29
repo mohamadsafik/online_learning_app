@@ -3,11 +3,16 @@ import 'package:online_learning_app/constant/storage_services.dart';
 import 'package:online_learning_app/export.dart';
 import 'package:online_learning_app/screens/user/user_my_course_screen.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   final Map<String, String> arguments;
 
   SettingsScreen({super.key, required this.arguments});
 
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

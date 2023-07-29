@@ -1,5 +1,9 @@
-import 'package:online_learning_app/bloc/course/search_course/search_course_bloc.dart';
+import 'package:online_learning_app/bloc/course/category/add_category/add_category_bloc.dart';
+import 'package:online_learning_app/screens/admin/add_category_screen.dart';
 
+import 'bloc/course/join_course/join_bloc.dart';
+import 'bloc/course/video/add_video/add_video_bloc.dart';
+import 'bloc/course/video/get_video_by_course_id_and_author_id/get_video_by_course_id_and_author_id_bloc.dart';
 import 'export.dart';
 
 class MyApp extends StatelessWidget {
@@ -48,6 +52,21 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => SearchCourseBloc(),
         ),
+        BlocProvider(
+          create: (context) => DeleteCourseBloc(),
+        ),
+        BlocProvider(
+          create: (context) => DeleteVideoBloc(),
+        ),
+        BlocProvider(
+          create: (context) => AddVideoBloc(),
+        ),
+        BlocProvider(
+          create: (context) => GetVideoByCourseIdAndAuthorIdBloc(),
+        ),
+        BlocProvider(
+          create: (context) => AddCategoryBloc(),
+        ),
       ],
       child: const App(),
     );
@@ -60,9 +79,9 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(),
+      // theme: ThemeData(),
       debugShowCheckedModeBanner: false,
-      // home: MyWidget(),
+      // home: VideoPlayer(),
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),
@@ -75,9 +94,12 @@ class App extends StatelessWidget {
         //Lecturer Route
         '/author-main': (context) => const AuthorHomeScreen(arguments: {}),
         '/lecturer-main': (context) => const LecturerHomeScreen(arguments: {}),
+        '/lecturer-detail': (context) => const LecturerDetailCourse(),
+        '/add-video': (context) => const LecturerAddVideoScreen(),
         '/add-course': (context) => const AddCourseScreen(),
         //Admin Route
         '/add-lecturer': (context) => const AddLecturerScreen(),
+        '/add-category': (context) => const AddCategoryScreen(),
         '/admin-main': (context) => const AdminHomeScreen(arguments: {}),
         '/all-data': (context) => const AllDataScreen(),
       },

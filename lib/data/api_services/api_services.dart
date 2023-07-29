@@ -43,7 +43,21 @@ class ApiServices {
   }
 
   Future getCourseByIdLecturer({required String id}) async {
-    return await getData(relativeUrl: '/course/$id');
+    return await getData(relativeUrl: '/course/lecturer/$id');
+  }
+
+  Future deleteCourse({required String id}) async {
+    return await _postData(
+      relativeUrl: '/course/$id',
+      body: {"id": id},
+    );
+  }
+
+  Future deleteVideo({required String id}) async {
+    return await _postData(
+      relativeUrl: '/course/video/$id',
+      body: {"id": id},
+    );
   }
 
   Future getUserJoinedCourse({required String id}) async {
@@ -60,6 +74,26 @@ class ApiServices {
 
   Future getUser() async {
     return await getData(relativeUrl: '/users');
+  }
+
+  Future addVideo({
+    required String courseId,
+    required String authorId,
+    required String videoUrl,
+    required String title,
+  }) async {
+    var body = {
+      "title": title,
+      "course_id": courseId,
+      "author_id": authorId,
+      "video": videoUrl,
+    };
+    print(body);
+    return await _postData(relativeUrl: '/video/add', body: body);
+  }
+
+  Future getVideoByCourseIdAndAuthorId({required String id}) async {
+    return await getData(relativeUrl: '/course/video/$id');
   }
 
   Future register({
@@ -127,6 +161,10 @@ class ApiServices {
     };
     print(body);
     return await _postData(relativeUrl: '/login', body: body);
+  }
+
+  Future addCategory({required String name}) async {
+    return await _postData(relativeUrl: '/course/category/add', body: {"name": name});
   }
 
   Future addCourse({
