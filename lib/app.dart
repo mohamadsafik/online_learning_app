@@ -83,26 +83,60 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // home: VideoPlayer(),
       initialRoute: '/',
-      routes: {
-        '/': (context) => const SplashScreen(),
-        '/auth': (context) => AuthScreen(),
-        //User Route
-        '/main': (context) => const BottomNavBar(arguments: {}),
-        '/settings': (context) => SettingsScreen(arguments: const {}),
-        '/profil': (context) => const ProfileScreen(),
-        '/detail-course': (context) => const DetailCourseScreen(),
-        //Lecturer Route
-        '/author-main': (context) => const AuthorHomeScreen(arguments: {}),
-        '/lecturer-main': (context) => const LecturerHomeScreen(arguments: {}),
-        '/lecturer-detail': (context) => const LecturerDetailCourse(),
-        '/add-video': (context) => const LecturerAddVideoScreen(),
-        '/add-course': (context) => const AddCourseScreen(),
-        //Admin Route
-        '/add-lecturer': (context) => const AddLecturerScreen(),
-        '/add-category': (context) => const AddCategoryScreen(),
-        '/admin-main': (context) => const AdminHomeScreen(arguments: {}),
-        '/all-data': (context) => const AllDataScreen(),
-      },
+      onGenerateRoute: routes,
     );
+    //   routes: {
+    //     '/': (context) => const SplashScreen(),
+    //     '/auth': (context) => AuthScreen(),
+    //     //User Route
+    //     '/main': (context) => const BottomNavBar(arguments: {}),
+    //     '/settings': (context) => SettingsScreen(arguments: const {}),
+    //     '/profil': (context) => const ProfileScreen(),
+    //     '/detail-course': (context) => const DetailCourseScreen(),
+    //     //Lecturer Route
+    //     '/author-main': (context) => const AuthorHomeScreen(arguments: {}),
+    //     '/lecturer-main': (context) => const LecturerHomeScreen(arguments: {}),
+    //     '/lecturer-detail': (context) => const LecturerDetailCourse(),
+    //     '/add-video': (context) => const LecturerAddVideoScreen(),
+    //     '/add-course': (context) => const AddCourseScreen(),
+    //     //Admin Route
+    //     '/add-lecturer': (context) => const AddLecturerScreen(),
+    //     '/add-category': (context) => const AddCategoryScreen(),
+    //     '/admin-main': (context) => const AdminHomeScreen(arguments: {}),
+    //     '/all-data': (context) => const AllDataScreen(),
+    //   },
+    // );
+    // }
+  }
+
+  Route<dynamic>? routes(RouteSettings settings) {
+    print('build route for ${settings.name}');
+    var routes = <String, WidgetBuilder>{
+      '/': (context) => const SplashScreen(),
+      '/auth': (context) => AuthScreen(),
+      //User Route
+      '/main': (context) => const BottomNavBar(arguments: {}),
+      '/settings': (context) => SettingsScreen(arguments: const {}),
+      '/profil': (context) => const ProfileScreen(),
+      '/detail-course': (context) => const DetailCourseScreen(),
+      '/detail-video': (ctx) => VideoPlayer(args: settings.arguments),
+      //Lecturer Route
+      '/author-main': (context) => const AuthorHomeScreen(arguments: {}),
+      '/lecturer-main': (context) => const LecturerHomeScreen(arguments: {}),
+      '/lecturer-detail': (context) => const LecturerDetailCourse(),
+      '/add-video': (context) => const LecturerAddVideoScreen(),
+      '/add-course': (context) => const AddCourseScreen(),
+      //Admin Route
+      '/add-lecturer': (context) => const AddLecturerScreen(),
+      '/add-category': (context) => const AddCategoryScreen(),
+      '/admin-main': (context) => const AdminHomeScreen(arguments: {}),
+      '/all-data': (context) => const AllDataScreen(),
+    };
+    WidgetBuilder? builder = routes[settings.name];
+    if (builder != null) {
+      return MaterialPageRoute(builder: (context) => builder(context));
+    } else {
+      return null;
+    }
   }
 }

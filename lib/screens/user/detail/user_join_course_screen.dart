@@ -20,7 +20,8 @@ class JoinCourseScreen extends StatelessWidget {
         height: 450,
         decoration: BoxDecoration(
           image: DecorationImage(
-            colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.srcOver),
+            colorFilter: ColorFilter.mode(
+                Colors.black.withOpacity(0.5), BlendMode.srcOver),
             fit: BoxFit.cover,
             image: const NetworkImage(
                 'https://images.unsplash.com/photo-1616587894289-86480e533129?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHZpZGVvJTIwbGVhcm5pbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60'),
@@ -143,8 +144,11 @@ class JoinCourseScreen extends StatelessWidget {
                       fontWeight: semibold,
                     ),
                   ),
-                  BlocBuilder<GetVideoByCourseIdAndAuthorIdBloc, GetVideoByCourseIdAndAuthorIdState>(
-                    bloc: context.read<GetVideoByCourseIdAndAuthorIdBloc>()..add(VideoByCourseIdAndAuthorIdEvent(courseId: course.id.toString())),
+                  BlocBuilder<GetVideoByCourseIdAndAuthorIdBloc,
+                      GetVideoByCourseIdAndAuthorIdState>(
+                    bloc: context.read<GetVideoByCourseIdAndAuthorIdBloc>()
+                      ..add(VideoByCourseIdAndAuthorIdEvent(
+                          courseId: course.id.toString())),
                     builder: (context, state) {
                       if (state is GetVideoByCourseIdAndAuthorIdLoading) {
                         return const Center(
@@ -154,8 +158,10 @@ class JoinCourseScreen extends StatelessWidget {
                         return Center(
                           child: Text(state.message),
                         );
-                      } else if (state is GetVideoByCourseIdAndAuthorIdSuccess) {
-                        if (state.video.data != null && state.video.data!.isNotEmpty) {
+                      } else if (state
+                          is GetVideoByCourseIdAndAuthorIdSuccess) {
+                        if (state.video.data != null &&
+                            state.video.data!.isNotEmpty) {
                           return ListView.builder(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
@@ -167,9 +173,12 @@ class JoinCourseScreen extends StatelessWidget {
                                 child: Container(
                                   margin: const EdgeInsets.only(bottom: 16),
                                   child: ListTile(
-                                    contentPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 6, horizontal: 16),
                                     tileColor: kTileColor.withOpacity(0.4),
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
                                     leading: Text(
                                       "${index + 1}",
                                       style: whiteTextStyle.copyWith(
@@ -198,7 +207,8 @@ class JoinCourseScreen extends StatelessWidget {
                           return Center(
                             child: Text(
                               'Belum ada video',
-                              style: redTextStyle.copyWith(fontSize: 14, fontWeight: medium),
+                              style: redTextStyle.copyWith(
+                                  fontSize: 14, fontWeight: medium),
                             ),
                           );
                         }
@@ -243,7 +253,8 @@ class JoinCourseScreen extends StatelessWidget {
                           backgroundColor: kGreenColor,
                           content: Row(
                             children: [
-                              const Icon(Icons.beenhere_rounded, color: Colors.white),
+                              const Icon(Icons.beenhere_rounded,
+                                  color: Colors.white),
                               const SizedBox(width: 12),
                               Text(
                                 'Join succesfully!',
@@ -265,7 +276,8 @@ class JoinCourseScreen extends StatelessWidget {
                           backgroundColor: kRedColor,
                           content: Row(
                             children: [
-                              const Icon(Icons.beenhere_rounded, color: Colors.white),
+                              const Icon(Icons.beenhere_rounded,
+                                  color: Colors.white),
                               const SizedBox(width: 12),
                               Text(state.message),
                             ],

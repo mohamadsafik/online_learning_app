@@ -7,7 +7,8 @@ class DetailCourseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> arguments = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    Map<String, dynamic> arguments =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     Course course = arguments['course'] as Course;
     Lecturer lecturer = arguments['lecturer'] as Lecturer;
     return Scaffold(
@@ -71,10 +72,13 @@ class DetailCourseScreen extends StatelessWidget {
                               children: List.generate(
                                 2,
                                 (index) => Container(
-                                  margin: EdgeInsets.only(left: (15 * index).toDouble()),
+                                  margin: EdgeInsets.only(
+                                      left: (15 * index).toDouble()),
                                   height: 30,
                                   width: 30,
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: Colors.white54),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      color: Colors.white54),
                                 ),
                               ),
                             ) // Adds a stack of two circular containers to the right of the title
@@ -83,13 +87,15 @@ class DetailCourseScreen extends StatelessWidget {
                         const SizedBox(height: 5),
                         Text(
                           'by ${lecturer.name}',
-                          style: greyTextStyle.copyWith(fontSize: 14, fontWeight: regular),
+                          style: greyTextStyle.copyWith(
+                              fontSize: 14, fontWeight: regular),
                         ) // Adds a subtitle to the card
                       ],
                     ),
                     Text(
                       course.categoryName!,
-                      style: whiteTextStyle.copyWith(fontSize: 14, fontWeight: bold),
+                      style: whiteTextStyle.copyWith(
+                          fontSize: 14, fontWeight: bold),
                     ) // Adds a price to the bottom of the card
                   ],
                 ),
@@ -119,8 +125,11 @@ class DetailCourseScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              BlocBuilder<GetVideoByCourseIdAndAuthorIdBloc, GetVideoByCourseIdAndAuthorIdState>(
-                bloc: context.read<GetVideoByCourseIdAndAuthorIdBloc>()..add(VideoByCourseIdAndAuthorIdEvent(courseId: course.id.toString())),
+              BlocBuilder<GetVideoByCourseIdAndAuthorIdBloc,
+                  GetVideoByCourseIdAndAuthorIdState>(
+                bloc: context.read<GetVideoByCourseIdAndAuthorIdBloc>()
+                  ..add(VideoByCourseIdAndAuthorIdEvent(
+                      courseId: course.id.toString())),
                 builder: (context, state) {
                   if (state is GetVideoByCourseIdAndAuthorIdLoading) {
                     return const Center(
@@ -131,7 +140,8 @@ class DetailCourseScreen extends StatelessWidget {
                       child: Text(state.message),
                     );
                   } else if (state is GetVideoByCourseIdAndAuthorIdSuccess) {
-                    if (state.video.data != null && state.video.data!.isNotEmpty) {
+                    if (state.video.data != null &&
+                        state.video.data!.isNotEmpty) {
                       return ListView.builder(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
@@ -140,18 +150,18 @@ class DetailCourseScreen extends StatelessWidget {
                           var video = state.video.data![index];
                           return InkWell(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => VideoPlayer(),
-                                  // settings: RouteSettings(arguments: video),
-                                ),
-                              );
+                              Navigator.of(context, rootNavigator: true)
+                                  .pushNamed("/detail-video", arguments: {
+                                "id_course": video.courseId,
+                                "id_video": video.id,
+                                "url_video": video.video,
+                              });
                             },
                             child: Container(
                               margin: const EdgeInsets.only(bottom: 16),
                               child: ListTile(
-                                contentPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 6, horizontal: 16),
                                 tileColor: kTileColor.withOpacity(0.4),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0),
@@ -185,7 +195,8 @@ class DetailCourseScreen extends StatelessWidget {
                       return Center(
                         child: Text(
                           'Tidak ada video',
-                          style: redTextStyle.copyWith(fontSize: 14, fontWeight: medium),
+                          style: redTextStyle.copyWith(
+                              fontSize: 14, fontWeight: medium),
                         ),
                       );
                     }
