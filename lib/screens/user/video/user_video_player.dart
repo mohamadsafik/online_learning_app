@@ -185,7 +185,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
                             "url_video": widget.args["url_video"],
                           });
                         },
-                        child: Text("Next"))
+                        child: const Text("Next"))
                   ],
                   topActions: <Widget>[
                     const SizedBox(width: 8.0),

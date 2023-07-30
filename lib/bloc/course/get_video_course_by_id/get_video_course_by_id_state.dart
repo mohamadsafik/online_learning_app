@@ -14,3 +14,4 @@ class GetVideoCourseByIdLoading extends GetVideoCourseByIdState {}
 class GetVideoCourseByIdSuccess extends GetVideoCourseByIdState {}
 
 class GetVideoCourseByIdError extends GetVideoCourseByIdState {}
+// sadas
